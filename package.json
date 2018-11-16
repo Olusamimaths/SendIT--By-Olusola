@@ -1,0 +1,32 @@
+{
+  "name": "sendit",
+  "version": "1.0.0",
+  "description": "The project files for Andela Facilitator program (Javascript Stack)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel server.js --out-dir build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Olusamimaths/SendIT.git"
+  },
+  "author": "Olusola Samuel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Olusamimaths/SendIT/issues"
+  },
+  "homepage": "https://github.com/Olusamimaths/SendIT#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-watch": "^2.0.7",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "pg": "^7.6.1"
+  }
+}
