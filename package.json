@@ -5,11 +5,13 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel server.js --out-dir build"
+    "babel-node": "babel-node --presets=env",
+    "start": "npm run build && nodemon dist/server.js",
+    "build": "babel src --out-dir dist"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Olusamimaths/SendIT.git"
+    "url": "https://github.com/Olusamimaths/SendIT--By-Olusola.git"
   },
   "author": "Olusola Samuel",
   "license": "ISC",
@@ -23,9 +25,11 @@
     "babel-watch": "^2.0.7",
     "eslint": "^5.9.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0"
+    "eslint-plugin-import": "^2.14.0",
+    "nodemon": "^1.18.6"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "pg": "^7.6.1"
   }
