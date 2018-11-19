@@ -18,14 +18,22 @@ var router = _express2.default.Router();
 
 // the forwarded routes from app.js is appended to become /api/v1/order
 router.post('/order', function (req, res, next) {
-  var query = 'INSERT INTO parcel(placedBy, weight, weightMetric, senton) VALUES ($1, $2, $3, $4)';
   var weight = req.body.weight;
 
-  var weightMetric = weight * 100;
-  var placeBy = 12;
-  var senton = 'NOW()';
+  var weightMetric = weight + ' kg';
+  var from = req.body.from;
+  var to = req.body.to;
+  var currentLocation = req.body.currentLocation;
+  var password = req.body.password;
 
-  var values = [placeBy, weight, weightMetric, senton];
+  var status = 'Delivered';
+  var sentOn = 'NOW()';
+  var deliveredOn = 'NOW()';
+  var placedBy = 12; // this will be gotten from the users table
+
+  var query = 'INSERT INTO parcel(placedby, weight, weightMetric, senton, deliveredon, status, _from, _to, currentlocation) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)';
+
+  var values = [placedBy, weight, weightMetric, sentOn, deliveredOn, status, from, to, currentLocation];
 
   _db2.default.query(query, values).then(function (result) {
     res.send({
@@ -33,6 +41,17 @@ router.post('/order', function (req, res, next) {
     });
   }).catch(function (error) {
     return res.send(error.stack);
+  });
+});
+
+// Getting orders 
+router.get('/order', function (req, res, next) {
+  var query = 'SELECT * FROM parcel';
+
+  _db2.default.query(query, [], function (err, result) {
+    return res.status(409).send({
+      orders: result.rows
+    });
   });
 });
 
