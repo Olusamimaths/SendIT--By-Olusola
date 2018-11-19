@@ -22,7 +22,7 @@ router.post('/order', (req, res, next) => {
   
   client.query(query, values)
     .then((result) => {
-      res.send({
+      res.status(200).send({
         message: 'Saved',
       });
     })
@@ -31,11 +31,40 @@ router.post('/order', (req, res, next) => {
 
 // Getting all orders 
 router.get('/parcels', (req, res, next) => {
-  const query = 'SELECT * FROM parcel';
-  
-  client.query(query, [], (err, result) => res.status(409).send({
-    orders: result.rows,
-  }));
+  const query = 'SELECT weight, weightMetric, senton, deliveredon, status, _from, _to, currentlocation FROM parcel';
+  client.query(query)
+    .then((result) => {
+      let arr = []
+      result.rows.forEach((i) => {
+        arr.push({
+          status: 200,
+          data: [
+            {
+              weight: i.weight,
+              weightMetric: i.weightMetric,
+              sentOn: i.senton,
+              deliveredOn: i.deliveredon,
+              status: i.status,
+              from: i._from,
+              to: i._to,
+              currentLocation: i.currentlocation,
+            },
+          ],
+        });
+      });
+      res.status(200).json({
+        parcelOrders: arr,
+      });
+      
+      // for (let i = 0; i < result.rows.length; i++) {
+      //   res.send({
+      //     status: result.rows[i].status,
+      //   });
+      // } 
+    })
+    .catch(e => res.status(409).json({
+      message: e.stack,
+    }));
 });
 
 // Get specific parcel order
