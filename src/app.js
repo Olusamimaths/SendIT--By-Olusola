@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import parcelRoutes from './api/routes/parcel';
+import orderRoutes from './controllers/order';
+import parcelRoutes from './controllers/parcel';
+
 
 const app = express();
 
@@ -8,12 +10,14 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/api/v1/', parcelRoutes); // url starting with /api/v1 are forwarded to router parcelRoutes
+
+app.use('/api/v1/', orderRoutes); // url starting with /api/v1 are forwarded to router parcelRoutes
+app.use('/api/v1/', parcelRoutes); 
 
 // handling errors
 app.use((req, res, next) => {
   const error = new Error('Not found');
-  error.status(404);
+  error.status = 404;
   next(error);
 });
 app.use((error, req, res, next) => {

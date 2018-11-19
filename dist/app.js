@@ -12,7 +12,11 @@ var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
-var _parcel = require('./api/routes/parcel');
+var _order = require('./controllers/order');
+
+var _order2 = _interopRequireDefault(_order);
+
+var _parcel = require('./controllers/parcel');
 
 var _parcel2 = _interopRequireDefault(_parcel);
 
@@ -24,12 +28,13 @@ var app = (0, _express2.default)();
 app.use(_bodyParser2.default.urlencoded({ extended: false }));
 app.use(_bodyParser2.default.json());
 
-app.use('/api/v1/', _parcel2.default); // url starting with /api/v1 are forwarded to router parcelRoutes
+app.use('/api/v1/', _order2.default); // url starting with /api/v1 are forwarded to router parcelRoutes
+app.use('/api/v1/', _parcel2.default);
 
 // handling errors
 app.use(function (req, res, next) {
   var error = new Error('Not found');
-  error.status(404);
+  error.status = 404;
   next(error);
 });
 app.use(function (error, req, res, next) {
