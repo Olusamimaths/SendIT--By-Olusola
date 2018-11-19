@@ -36,7 +36,7 @@ router.post('/order', function (req, res, next) {
   var values = [placedBy, weight, weightMetric, sentOn, deliveredOn, status, from, to, currentLocation];
 
   _db2.default.query(query, values).then(function (result) {
-    res.send({
+    res.status(200).send({
       message: 'Saved'
     });
   }).catch(function (error) {
@@ -44,11 +44,48 @@ router.post('/order', function (req, res, next) {
   });
 });
 
-// Getting orders 
-router.get('/order', function (req, res, next) {
-  var query = 'SELECT * FROM parcel';
+// Getting all orders 
+router.get('/parcels', function (req, res, next) {
+  var query = 'SELECT weight, weightMetric, senton, deliveredon, status, _from, _to, currentlocation FROM parcel';
+  _db2.default.query(query).then(function (result) {
+    var arr = [];
+    result.rows.forEach(function (i) {
+      arr.push({
+        status: 200,
+        data: [{
+          weight: i.weight,
+          weightMetric: i.weightMetric,
+          sentOn: i.senton,
+          deliveredOn: i.deliveredon,
+          status: i.status,
+          from: i._from,
+          to: i._to,
+          currentLocation: i.currentlocation
+        }]
+      });
+    });
+    res.status(200).json({
+      parcelOrders: arr
+    });
 
-  _db2.default.query(query, [], function (err, result) {
+    // for (let i = 0; i < result.rows.length; i++) {
+    //   res.send({
+    //     status: result.rows[i].status,
+    //   });
+    // } 
+  }).catch(function (e) {
+    return res.status(409).json({
+      message: e.stack
+    });
+  });
+});
+
+// Get specific parcel order
+router.get('/parcels/:parcelId', function (req, res, next) {
+  var query = 'SELECT * FROM parcel where id = $1';
+  var value = [req.params.parcelId];
+
+  _db2.default.query(query, [value], function (err, result) {
     return res.status(409).send({
       orders: result.rows
     });
