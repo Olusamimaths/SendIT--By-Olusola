@@ -49,6 +49,7 @@ router.post('/signup', function (req, res, next) {
         error: err
       });
     } else if (typeof username !== 'undefined' && typeof firstname !== 'undefined' && typeof lastname !== 'undefined' && typeof othernames !== 'undefined' && typeof email !== 'undefined' && typeof password !== 'undefined') {
+      // no field is missing
       var query = 'INSERT INTO users(username, firstname, lastname, othernames, email, isadmin, registered, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)';
       var values = [username, firstname, lastname, othernames, email, isadmin, registered, hash];
       _db2.default.query(query, values).then(function (result) {
@@ -59,6 +60,7 @@ router.post('/signup', function (req, res, next) {
         return res.send(error.stack);
       });
     } else {
+      // one or more fields are missing
       res.status(500).json({
         message: 'All fields are requiered'
       });
