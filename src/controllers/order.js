@@ -6,10 +6,18 @@ const router = express.Router();
 // the forwarded routes from app.js is appended to become /api/v1/order
 router.post('/order', (req, res, next) => {
   const query = 'INSERT INTO parcel(placedBy, weight, weightMetric, senton) VALUES ($1, $2, $3, $4)';
-  const values = [1000, 10, 12.23, '2018-11-8'];
+  const { weight } = req.body;
+  const weightMetric = weight * 100;
+  const placeBy = 12;
+  const senton = 'NOW()';
+
+  const values = [placeBy, weight, weightMetric, senton];
+  
   client.query(query, values)
     .then((result) => {
-      res.send(result.rows[0]);
+      res.send({
+        message: 'Saved',
+      });
     })
     .catch(error => res.send(error.stack));
 });

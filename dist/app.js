@@ -16,6 +16,10 @@ var _order = require('./controllers/order');
 
 var _order2 = _interopRequireDefault(_order);
 
+var _signup = require('./controllers/signup');
+
+var _signup2 = _interopRequireDefault(_signup);
+
 var _parcel = require('./controllers/parcel');
 
 var _parcel2 = _interopRequireDefault(_parcel);
@@ -30,6 +34,7 @@ app.use(_bodyParser2.default.json());
 
 app.use('/api/v1/', _order2.default); // url starting with /api/v1 are forwarded to router parcelRoutes
 app.use('/api/v1/', _parcel2.default);
+app.use('/api/v1/', _signup2.default);
 
 // handling errors
 app.use(function (req, res, next) {
