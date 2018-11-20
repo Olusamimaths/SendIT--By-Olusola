@@ -121,4 +121,28 @@ router.get('/parcels/:parcelId', _auth2.default, function (req, res, next) {
   });
 });
 
+// changing the destination of a parcel delivery order
+router.patch('/parcels/:parcelId/destination', _auth2.default, function (req, res, next) {
+  var query = 'UPDATE parcel SET _to = $1 where id = $2 RETURNING *';
+  var value = [req.body.destination, req.params.parcelId];
+  // run the query  
+  _db2.default.query(query, value).then(function (result) {
+    if (result.rows[0]) {
+      res.status(200).json({
+        status: 200,
+        data: [{
+          to: result.rows[0]._to,
+          message: 'Parcel destination updated'
+        }]
+      });
+    } else {
+      res.status(404).json({
+        message: 'No such parcel order exist'
+      });
+    }
+  }).catch(function (e) {
+    return res.send(409).json({ error: e });
+  });
+});
+
 exports.default = router;
