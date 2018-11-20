@@ -67,12 +67,6 @@ router.get('/parcels', function (req, res, next) {
     res.status(200).json({
       parcelOrders: arr
     });
-
-    // for (let i = 0; i < result.rows.length; i++) {
-    //   res.send({
-    //     status: result.rows[i].status,
-    //   });
-    // } 
   }).catch(function (e) {
     return res.status(409).json({
       message: e.stack
@@ -85,10 +79,28 @@ router.get('/parcels/:parcelId', function (req, res, next) {
   var query = 'SELECT * FROM parcel where id = $1';
   var value = [req.params.parcelId];
 
-  _db2.default.query(query, [value], function (err, result) {
-    return res.status(409).send({
-      orders: result.rows
-    });
+  _db2.default.query(query, value).then(function (result) {
+    if (result.rows[0]) {
+      res.status(200).json({
+        status: 200,
+        data: [{
+          weight: result.rows[0].weight,
+          weightMetric: result.rows[0].weightMetric,
+          sentOn: result.rows[0].senton,
+          deliveredOn: result.rows[0].deliveredon,
+          status: result.rows[0].status,
+          from: result.rows[0]._from,
+          to: result.rows[0]._to,
+          currentLocation: result.rows[0].currentlocation
+        }]
+      });
+    } else {
+      res.status(404).json({
+        message: 'No such order'
+      });
+    }
+  }).catch(function (e) {
+    return res.send(409).json({ error: e });
   });
 });
 
