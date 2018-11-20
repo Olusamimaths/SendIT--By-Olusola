@@ -26,7 +26,6 @@ router.post('/auth/signup', (req, res, next) => {
       });
     }
   });
-  
   // hash the password
   bcrypt.hash(password, 10, (err, hash) => {
     if (err) {
@@ -38,46 +37,37 @@ router.post('/auth/signup', (req, res, next) => {
     && typeof lastname !== 'undefined' && typeof othernames !== 'undefined' 
     && typeof email !== 'undefined' && typeof password !== 'undefined') {
       // no field is missing
-      const query = 'INSERT INTO users(username, firstname, lastname, othernames, email, isadmin, registered, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)';
+      const query = 'INSERT INTO users(username, firstname, lastname, othernames, email, isadmin, registered, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
       const values = [username, firstname, lastname, othernames, email, isadmin, registered, hash];
       // run the query
       client.query(query, values)
-        .then((result) => {
-          // select the details
-          client.query('SELECT id, username, firstname, lastname, othernames, email, isadmin, registered, password FROM users')
-            .then((r) => {
-              // create the token
-              const token = jwt.sign({
+        .then((r) => {
+          // create the token
+          const token = jwt.sign({
+            id: r.rows[0].id,
+            email, 
+            username,
+          }, process.env.JWT_KEY, {
+            expiresIn: '1h',
+          });
+          // send the response
+          res.status(200).json({
+            status: 200,
+            data: [
+              {
+                token,
                 id: r.rows[0].id,
-                email, 
-                username,
-              }, process.env.JWT_KEY, {
-                expiresIn: '1h',
-              });
-
-              // send the response
-              res.status(200).json({
-                status: 200,
-                data: [
-                  {
-                    token,
-                    id: r.rows[0].id,
-                    firstname: r.rows[0].firstname,
-                    lastname: r.rows[0].lastname,
-                    othernames: r.rows[0].othernames,
-                    email: r.rows[0].email,
-                    username: r.rows[0].username,
-                    registered: r.rows[0].registered,
-                    isAdmin: r.rows[0].isadmin,
-                  },
-                ], 
-              });
-            })
-            .catch(e => res.status(409).json({
-              status: 409,
-              error: 'User doesn\'t exists',
-            }));
-        })
+                firstname: r.rows[0].firstname,
+                lastname: r.rows[0].lastname,
+                othernames: r.rows[0].othernames,
+                email: r.rows[0].email,
+                username: r.rows[0].username,
+                registered: r.rows[0].registered,
+                isAdmin: r.rows[0].isadmin,
+              },
+            ], 
+          });
+        })  
         .catch(error => res.send(error.stack));
     } else { // one or more fields are missing
       res.status(500).json({

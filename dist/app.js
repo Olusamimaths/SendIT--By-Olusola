@@ -12,21 +12,21 @@ var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
-var _order = require('./controllers/order');
+var _parcel = require('./controllers/parcel');
 
-var _order2 = _interopRequireDefault(_order);
+var _parcel2 = _interopRequireDefault(_parcel);
 
 var _signup = require('./controllers/signup');
 
 var _signup2 = _interopRequireDefault(_signup);
 
+var _users = require('./controllers/users');
+
+var _users2 = _interopRequireDefault(_users);
+
 var _login = require('./controllers/login');
 
 var _login2 = _interopRequireDefault(_login);
-
-var _parcel = require('./controllers/parcel');
-
-var _parcel2 = _interopRequireDefault(_parcel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36,10 +36,10 @@ var app = (0, _express2.default)();
 app.use(_bodyParser2.default.urlencoded({ extended: false }));
 app.use(_bodyParser2.default.json());
 
-app.use('/api/v1/', _order2.default); // url starting with /api/v1 are forwarded to router parcelRoutes
-app.use('/api/v1/', _parcel2.default);
+app.use('/api/v1/', _parcel2.default); // url starting with /api/v1 are forwarded to router parcelRoutes
 app.use('/api/v1/', _signup2.default);
 app.use('/api/v1/', _login2.default);
+app.use('/api/v1/', _users2.default);
 
 // handling errors
 app.use(function (req, res, next) {

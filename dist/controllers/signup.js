@@ -46,7 +46,6 @@ router.post('/auth/signup', function (req, res, next) {
       });
     }
   });
-
   // hash the password
   _bcrypt2.default.hash(password, 10, function (err, hash) {
     if (err) {
@@ -56,41 +55,32 @@ router.post('/auth/signup', function (req, res, next) {
       });
     } else if (typeof username !== 'undefined' && typeof firstname !== 'undefined' && typeof lastname !== 'undefined' && typeof othernames !== 'undefined' && typeof email !== 'undefined' && typeof password !== 'undefined') {
       // no field is missing
-      var query = 'INSERT INTO users(username, firstname, lastname, othernames, email, isadmin, registered, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)';
+      var query = 'INSERT INTO users(username, firstname, lastname, othernames, email, isadmin, registered, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
       var values = [username, firstname, lastname, othernames, email, isadmin, registered, hash];
       // run the query
-      _db2.default.query(query, values).then(function (result) {
-        // select the details
-        _db2.default.query('SELECT id, username, firstname, lastname, othernames, email, isadmin, registered, password FROM users').then(function (r) {
-          // create the token
-          var token = _jsonwebtoken2.default.sign({
+      _db2.default.query(query, values).then(function (r) {
+        // create the token
+        var token = _jsonwebtoken2.default.sign({
+          id: r.rows[0].id,
+          email: email,
+          username: username
+        }, process.env.JWT_KEY, {
+          expiresIn: '1h'
+        });
+        // send the response
+        res.status(200).json({
+          status: 200,
+          data: [{
+            token: token,
             id: r.rows[0].id,
-            email: email,
-            username: username
-          }, process.env.JWT_KEY, {
-            expiresIn: '1h'
-          });
-
-          // send the response
-          res.status(200).json({
-            status: 200,
-            data: [{
-              token: token,
-              id: r.rows[0].id,
-              firstname: r.rows[0].firstname,
-              lastname: r.rows[0].lastname,
-              othernames: r.rows[0].othernames,
-              email: r.rows[0].email,
-              username: r.rows[0].username,
-              registered: r.rows[0].registered,
-              isAdmin: r.rows[0].isadmin
-            }]
-          });
-        }).catch(function (e) {
-          return res.status(409).json({
-            status: 409,
-            error: 'User doesn\'t exists'
-          });
+            firstname: r.rows[0].firstname,
+            lastname: r.rows[0].lastname,
+            othernames: r.rows[0].othernames,
+            email: r.rows[0].email,
+            username: r.rows[0].username,
+            registered: r.rows[0].registered,
+            isAdmin: r.rows[0].isadmin
+          }]
         });
       }).catch(function (error) {
         return res.send(error.stack);
