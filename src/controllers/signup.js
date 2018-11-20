@@ -1,10 +1,11 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import client from '../models/db';
 
 const router = express.Router();
 
-router.post('/signup', (req, res, next) => {
+router.post('/auth/signup', (req, res, next) => {
   const { username } = req.body;
   const { firstname } = req.body;
   const { lastname } = req.body;
@@ -19,16 +20,18 @@ router.post('/signup', (req, res, next) => {
   
   client.query(text, value, (err, result) => {
     if (result.rows[0]) {
-      return res.status(409).send({
+      return res.status(409).json({
+        status: 409,
         message: 'Mail exists',
       });
     }
   });
   
-  // defining the query
+  // hash the password
   bcrypt.hash(password, 10, (err, hash) => {
     if (err) {
       res.status(500).json({
+        status: 500,
         error: err,
       });
     } else if (typeof username !== 'undefined' && typeof firstname !== 'undefined' 
@@ -37,15 +40,48 @@ router.post('/signup', (req, res, next) => {
       // no field is missing
       const query = 'INSERT INTO users(username, firstname, lastname, othernames, email, isadmin, registered, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)';
       const values = [username, firstname, lastname, othernames, email, isadmin, registered, hash];
+      // run the query
       client.query(query, values)
         .then((result) => {
-          res.status(201).send({
-            message: 'User Created',
-          });
+          // select the details
+          client.query('SELECT id, username, firstname, lastname, othernames, email, isadmin, registered, password FROM users')
+            .then((r) => {
+              // create the token
+              const token = jwt.sign({
+                id: r.rows[0].id,
+                email, 
+                username,
+              }, process.env.JWT_KEY, {
+                expiresIn: '1h',
+              });
+
+              // send the response
+              res.status(200).json({
+                status: 200,
+                data: [
+                  {
+                    token,
+                    id: r.rows[0].id,
+                    firstname: r.rows[0].firstname,
+                    lastname: r.rows[0].lastname,
+                    othernames: r.rows[0].othernames,
+                    email: r.rows[0].email,
+                    username: r.rows[0].username,
+                    registered: r.rows[0].registered,
+                    isAdmin: r.rows[0].isadmin,
+                  },
+                ], 
+              });
+            })
+            .catch(e => res.status(409).json({
+              status: 409,
+              error: 'User doesn\'t exists',
+            }));
         })
         .catch(error => res.send(error.stack));
     } else { // one or more fields are missing
       res.status(500).json({
+        status: 500,
         message: 'All fields are requiered',
       });
     }
