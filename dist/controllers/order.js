@@ -10,8 +10,6 @@ var _express2 = _interopRequireDefault(_express);
 
 var _auth = require('../middleware/auth');
 
-var _auth2 = _interopRequireDefault(_auth);
-
 var _db = require('../models/db');
 
 var _db2 = _interopRequireDefault(_db);
@@ -21,7 +19,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var router = _express2.default.Router();
 
 // the forwarded routes from app.js is appended to become /api/v1/order
-router.post('/parcels', _auth2.default, function (req, res, next) {
+router.post('/parcels', _auth.checkAuth, function (req, res, next) {
   var weight = req.body.weight;
 
   var weightMetric = weight + ' kg';
@@ -33,35 +31,29 @@ router.post('/parcels', _auth2.default, function (req, res, next) {
   var status = 'Delivered';
   var sentOn = 'NOW()';
   var deliveredOn = 'NOW()';
-  var userData = req.userData;
-
   // define the query
-
-  var query = 'INSERT INTO parcel(placedby, weight, weightMetric, senton, deliveredon, status, _from, _to, currentlocation) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)';
+  var query = 'INSERT INTO parcel(placedby, weight, weightMetric, senton, deliveredon, status, _from, _to, currentlocation) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id';
   var values = [12, weight, weightMetric, sentOn, deliveredOn, status, from, to, currentLocation];
 
-  _db2.default.query(query, values).then(function (result) {
-    _db2.default.query('SELECT id FROM parcel').then(function (r) {
-      // getting the index of the last item in the row
-      var lastRow = r.rows.length - 1;
-      res.status(200).send({
-        status: 200,
-        data: [{
-          id: r.rows[lastRow].id, // get the id of the inserted order
-          message: 'order created',
-          userData: userData
-        }]
-      });
-    }).catch(function (e) {
-      return res.status(404).json({ error: e });
+  _db2.default.query(query, values).then(function (r) {
+    // getting the index of the last item in the row
+    // const lastRow = r.rows.length - 1;
+    res.status(200).send({
+      status: 200,
+      data: [{
+        id: r.rows[0].id, // get the id of the inserted order
+        message: 'order created',
+        userData: _auth.userData
+      }]
     });
-  }).catch(function (error) {
+  }) // end of first query
+  .catch(function (error) {
     return res.send(error.stack);
   });
 });
 
 // Getting all orders 
-router.get('/parcels', _auth2.default, function (req, res, next) {
+router.get('/parcels', _auth.checkAuth, function (req, res, next) {
   var query = 'SELECT weight, weightMetric, senton, deliveredon, status, _from, _to, currentlocation FROM parcel';
   _db2.default.query(query).then(function (result) {
     var arr = [];
@@ -92,7 +84,7 @@ router.get('/parcels', _auth2.default, function (req, res, next) {
 });
 
 // Get specific parcel order
-router.get('/parcels/:parcelId', _auth2.default, function (req, res, next) {
+router.get('/parcels/:parcelId', _auth.checkAuth, function (req, res, next) {
   var query = 'SELECT * FROM parcel where id = $1';
   var value = [req.params.parcelId];
   // run the query  
@@ -113,7 +105,8 @@ router.get('/parcels/:parcelId', _auth2.default, function (req, res, next) {
       });
     } else {
       res.status(404).json({
-        message: 'No such parcel order exist'
+        status: 404,
+        error: 'No such parcel order exist'
       });
     }
   }).catch(function (e) {
@@ -122,7 +115,7 @@ router.get('/parcels/:parcelId', _auth2.default, function (req, res, next) {
 });
 
 // changing the destination of a parcel delivery order
-router.patch('/parcels/:parcelId/destination', _auth2.default, function (req, res, next) {
+router.patch('/parcels/:parcelId/destination', _auth.checkAuth, function (req, res, next) {
   var query = 'UPDATE parcel SET _to = $1 where id = $2 RETURNING *';
   var value = [req.body.destination, req.params.parcelId];
   // run the query  
@@ -137,6 +130,7 @@ router.patch('/parcels/:parcelId/destination', _auth2.default, function (req, re
       });
     } else {
       res.status(404).json({
+        status: 404,
         message: 'No such parcel order exist'
       });
     }

@@ -1,10 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import orderRoutes from './controllers/order';
+import orderRoutes from './controllers/parcel';
 import signupRoute from './controllers/signup';
+import usersRoute from './controllers/users';
 import loginRoute from './controllers/login';
-import parcelRoutes from './controllers/parcel';
-
 
 const app = express();
 
@@ -14,9 +13,9 @@ app.use(bodyParser.json());
 
 
 app.use('/api/v1/', orderRoutes); // url starting with /api/v1 are forwarded to router parcelRoutes
-app.use('/api/v1/', parcelRoutes); 
 app.use('/api/v1/', signupRoute); 
 app.use('/api/v1/', loginRoute); 
+app.use('/api/v1/', usersRoute); 
 
 // handling errors
 app.use((req, res, next) => {
