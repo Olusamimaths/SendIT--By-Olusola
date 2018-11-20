@@ -101,7 +101,8 @@ router.get('/parcels/:parcelId', checkAuth, (req, res, next) => {
         });
       } else {
         res.status(404).json({
-          message: 'No such parcel order exist',
+          status: 404,
+          error: 'No such parcel order exist',
         });
       }
     })
@@ -127,6 +128,7 @@ router.patch('/parcels/:parcelId/destination', checkAuth, (req, res, next) => {
         });
       } else {
         res.status(404).json({
+          status: 404,
           message: 'No such parcel order exist',
         });
       }
