@@ -1,15 +1,16 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import client from '../models/db';
 
 const router = express.Router();
 
-router.post('/login', (req, res, next) => {
+router.post('/auth/login', (req, res, next) => {
   const { username } = req.body;
   const { email } = req.body;
   const { password } = req.body;
 
-  const query = 'SELECT password FROM users WHERE email = $1';
+  const query = 'SELECT * FROM users WHERE email = $1';
   const values = [email];
   let hash = '';
   
@@ -19,7 +20,8 @@ router.post('/login', (req, res, next) => {
     } 
     if (err) {
       res.status(409).send({
-        message: 'Auth failed',
+        status: 409,
+        error: 'Auth failed',
       });
     } else {
       // verifying the password 
@@ -31,11 +33,35 @@ router.post('/login', (req, res, next) => {
         }
         // if comparision is correct
         if (compareRes) {
+          // create the token
+          const token = jwt.sign({
+            id: result.rows[0].id,
+            email: result.rows[0].email,
+            username: result.rows[0].username,
+          }, process.env.JWT_KEY, {
+            expiresIn: '1h',
+          });
+          // success in login
           return res.status(200).json({
+            status: 200,
             message: 'Auth Successful',
+            data: [
+              {
+                token,
+                id: result.rows[0].id,
+                firstname: result.rows[0].firstname,
+                lastname: result.rows[0].lastname,
+                othernames: result.rows[0].othernames,
+                email: result.rows[0].email,
+                username: result.rows[0].username,
+                registered: result.rows[0].registered,
+                isAdmin: result.rows[0].isadmin,
+              },
+            ], 
           });
         } 
         res.status(401).json({
+          status: 401,
           message: 'Auth failed',
         });
       }); 

@@ -12,6 +12,10 @@ var _bcrypt = require('bcrypt');
 
 var _bcrypt2 = _interopRequireDefault(_bcrypt);
 
+var _jsonwebtoken = require('jsonwebtoken');
+
+var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
+
 var _db = require('../models/db');
 
 var _db2 = _interopRequireDefault(_db);
@@ -20,13 +24,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var router = _express2.default.Router();
 
-router.post('/login', function (req, res, next) {
+router.post('/auth/login', function (req, res, next) {
   var username = req.body.username;
   var email = req.body.email;
   var password = req.body.password;
 
 
-  var query = 'SELECT password FROM users WHERE email = $1';
+  var query = 'SELECT * FROM users WHERE email = $1';
   var values = [email];
   var hash = '';
 
@@ -36,7 +40,8 @@ router.post('/login', function (req, res, next) {
     }
     if (err) {
       res.status(409).send({
-        message: 'Auth failed'
+        status: 409,
+        error: 'Auth failed'
       });
     } else {
       // verifying the password 
@@ -48,11 +53,33 @@ router.post('/login', function (req, res, next) {
         }
         // if comparision is correct
         if (compareRes) {
+          // create the token
+          var token = _jsonwebtoken2.default.sign({
+            id: result.rows[0].id,
+            email: result.rows[0].email,
+            username: result.rows[0].username
+          }, process.env.JWT_KEY, {
+            expiresIn: '1h'
+          });
+          // success in login
           return res.status(200).json({
-            message: 'Auth Successful'
+            status: 200,
+            message: 'Auth Successful',
+            data: [{
+              token: token,
+              id: result.rows[0].id,
+              firstname: result.rows[0].firstname,
+              lastname: result.rows[0].lastname,
+              othernames: result.rows[0].othernames,
+              email: result.rows[0].email,
+              username: result.rows[0].username,
+              registered: result.rows[0].registered,
+              isAdmin: result.rows[0].isadmin
+            }]
           });
         }
         res.status(401).json({
+          status: 401,
           message: 'Auth failed'
         });
       });
