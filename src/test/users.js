@@ -7,8 +7,8 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 // test the get parcel route
-describe('/GET Parcels', () => {
-  it('it should GET all parcels delivery order', (done) => {
+describe('/PATCH Parcels', () => {
+  it('it should CANCEL a parcel\'s delivery order', (done) => {
     chai.request(app)
       .get('/api/v1/parcels')
       .end((err, res) => {
