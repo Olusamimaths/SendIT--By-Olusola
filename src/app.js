@@ -4,6 +4,7 @@ import orderRoutes from './controllers/parcel';
 import signupRoute from './controllers/signup';
 import usersRoute from './controllers/users';
 import loginRoute from './controllers/login';
+import adminRoute from './controllers/admin';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use('/api/v1/', orderRoutes); // url starting with /api/v1 are forwarded to 
 app.use('/api/v1/', signupRoute); 
 app.use('/api/v1/', loginRoute); 
 app.use('/api/v1/', usersRoute); 
+app.use('/api/v1/', adminRoute); 
 
 // handling errors
 app.use((req, res, next) => {

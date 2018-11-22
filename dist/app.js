@@ -28,6 +28,10 @@ var _login = require('./controllers/login');
 
 var _login2 = _interopRequireDefault(_login);
 
+var _admin = require('./controllers/admin');
+
+var _admin2 = _interopRequireDefault(_admin);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
@@ -40,6 +44,7 @@ app.use('/api/v1/', _parcel2.default); // url starting with /api/v1 are forwarde
 app.use('/api/v1/', _signup2.default);
 app.use('/api/v1/', _login2.default);
 app.use('/api/v1/', _users2.default);
+app.use('/api/v1/', _admin2.default);
 
 // handling errors
 app.use(function (req, res, next) {
