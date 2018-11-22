@@ -1,10 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import orderRoutes from './controllers/parcel';
-import signupRoute from './controllers/signup';
-import usersRoute from './controllers/users';
-import loginRoute from './controllers/login';
-import adminRoute from './controllers/admin';
+import orderRoutes from './routes/parcel';
+import signupRoute from './routes/signup';
+import usersRoute from './routes/users';
+import loginRoute from './routes/login';
+import adminRoute from './routes/admin';
 
 const app = express();
 

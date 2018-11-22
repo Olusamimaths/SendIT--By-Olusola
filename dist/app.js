@@ -12,23 +12,23 @@ var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
-var _parcel = require('./controllers/parcel');
+var _parcel = require('./routes/parcel');
 
 var _parcel2 = _interopRequireDefault(_parcel);
 
-var _signup = require('./controllers/signup');
+var _signup = require('./routes/signup');
 
 var _signup2 = _interopRequireDefault(_signup);
 
-var _users = require('./controllers/users');
+var _users = require('./routes/users');
 
 var _users2 = _interopRequireDefault(_users);
 
-var _login = require('./controllers/login');
+var _login = require('./routes/login');
 
 var _login2 = _interopRequireDefault(_login);
 
-var _admin = require('./controllers/admin');
+var _admin = require('./routes/admin');
 
 var _admin2 = _interopRequireDefault(_admin);
 
