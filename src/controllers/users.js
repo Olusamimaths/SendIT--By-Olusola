@@ -35,7 +35,6 @@ router.get('/users/:userId/parcels', checkAuth, (req, res, next) => {
       .catch(e => res.status(409).json({
         status: 409,
         error: 'Could not fetch orders',
-        e: e.stack,
       }));
   } else {
     res.status(403).json({
@@ -65,12 +64,51 @@ router.patch('/parcels/:parcelId/destination', checkAuth, (req, res, next) => {
               });
             }
           })
+          .catch(e => res.status(404).send({
+            status: 404,
+            error: 'The parcel delivery you requested cannot be found',
+          }));
+      } else {
+        res.status(403).send({ 
+          status: 403,
+          error: 'You don\'t have permissions to change the destination of this order',
+        });
+      }
+    })
+    .catch(e => res.status(404).send({
+      status: 404,
+      error: 'The parcel delivery you requested cannot be found',
+    }));
+}); // end of route
+
+// Cancelling a delivery order
+router.patch('/parcels/:parcelId/cancel', checkAuth, (req, res, next) => {
+  client.query('SELECT placedby FROM parcel WHERE id = $1', [req.params.parcelId])
+    .then((r) => {
+      if (r.rows[0].placedby === userData.id) {
+        const query = 'DELETE FROM parcel WHERE id = $1 RETURNING *';
+        client.query(query, [req.params.parcelId])
+          .then((result) => {
+            if (result.rows[0]) {       
+              res.status(200).json({
+                status: 200,
+                data: [
+                  {
+                    id: result.rows[0].id,
+                    message: 'Order Canceled',
+                  },
+                ],
+              });
+            }
+          })
           .catch(e => res.send(e.stack));
       } else {
-        res.send({ t: 'false' });
+        res.send({
+          status: 403,
+          error: 'You don\'t have permissions to cancel this parcel delivery order',
+        });
       }
     })
     .catch(e => res.send(e.stack));
 }); // end of route
-
 export default router;

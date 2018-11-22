@@ -50,7 +50,7 @@ router.post('/parcels', _auth.checkAuth, function (req, res, next) {
 });
 
 // Getting all orders 
-router.get('/parcels', function (req, res, next) {
+router.get('/parcels', _auth.checkAuth, function (req, res, next) {
   var query = 'SELECT id, placedBy, weight, weightmetric, senton, deliveredon, status, _from, _to, currentlocation FROM parcel';
   _db2.default.query(query).then(function (result) {
     var arr = [];
