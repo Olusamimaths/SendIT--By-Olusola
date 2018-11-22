@@ -50,7 +50,7 @@ router.post('/parcels', _auth.checkAuth, function (req, res, next) {
 });
 
 // Getting all orders 
-router.get('/parcels', _auth.checkAuth, function (req, res, next) {
+router.get('/parcels', function (req, res, next) {
   var query = 'SELECT id, placedBy, weight, weightmetric, senton, deliveredon, status, _from, _to, currentlocation FROM parcel';
   _db2.default.query(query).then(function (result) {
     var arr = [];
@@ -106,31 +106,6 @@ router.get('/parcels/:parcelId', _auth.checkAuth, function (req, res, next) {
       res.status(404).json({
         status: 404,
         error: 'No such parcel order exist'
-      });
-    }
-  }).catch(function (e) {
-    return res.send(409).json({ error: e });
-  });
-});
-
-// changing the destination of a parcel delivery order
-router.patch('/parcels/:parcelId/destination', _auth.checkAuth, function (req, res, next) {
-  var query = 'UPDATE parcel SET _to = $1 where id = $2 RETURNING *';
-  var value = [req.body.destination, req.params.parcelId];
-  // run the query  
-  _db2.default.query(query, value).then(function (result) {
-    if (result.rows[0]) {
-      res.status(200).json({
-        status: 200,
-        data: [{
-          to: result.rows[0]._to,
-          message: 'Parcel destination updated'
-        }]
-      });
-    } else {
-      res.status(404).json({
-        status: 404,
-        message: 'No such parcel order exist'
       });
     }
   }).catch(function (e) {
