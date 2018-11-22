@@ -46,7 +46,7 @@ router.get('/users/:userId/parcels', checkAuth, (req, res, next) => {
 
 // changing the destination of a parcel delivery order
 router.patch('/parcels/:parcelId/destination', checkAuth, (req, res, next) => {
-  client.query('SELECT placedby FROM parcel WHERE id = $1', [req.params.parcelId])
+  client.query('SELECT placedby, status FROM parcel WHERE id = $1', [req.params.parcelId])
     .then((r) => {
       if (r.rows[0].placedby === userData.id) {
         const query = 'UPDATE parcel SET _to = $1 where id = $2 RETURNING *';

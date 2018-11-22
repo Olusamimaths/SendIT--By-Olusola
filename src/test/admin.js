@@ -6,11 +6,11 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 
-// test the get parcel route
+// test the change status
 describe('/GET Parcels', () => {
-  it('it should GET all parcels delivery order', (done) => {
+  it('it should Change the status of a parcel delivery order', (done) => {
     chai.request(app)
-      .patch('/api/v1/parcels/3/status')
+      .patch('/api/v1/parcels')
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('parcelOrders');

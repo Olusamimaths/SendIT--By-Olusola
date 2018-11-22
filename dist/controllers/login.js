@@ -56,6 +56,7 @@ router.post('/auth/login', function (req, res, next) {
           // create the token
           var token = _jsonwebtoken2.default.sign({
             id: result.rows[0].id,
+            isadmin: result.rows[0].isadmin,
             email: result.rows[0].email,
             username: result.rows[0].username
           }, process.env.JWT_KEY, {

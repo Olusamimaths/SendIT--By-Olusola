@@ -47,8 +47,7 @@ router.get('/users/:userId/parcels', _auth.checkAuth, function (req, res, next) 
     }).catch(function (e) {
       return res.status(409).json({
         status: 409,
-        error: 'Could not fetch orders',
-        e: e.stack
+        error: 'Could not fetch orders'
       });
     });
   } else {
@@ -61,7 +60,7 @@ router.get('/users/:userId/parcels', _auth.checkAuth, function (req, res, next) 
 
 // changing the destination of a parcel delivery order
 router.patch('/parcels/:parcelId/destination', _auth.checkAuth, function (req, res, next) {
-  _db2.default.query('SELECT placedby FROM parcel WHERE id = $1', [req.params.parcelId]).then(function (r) {
+  _db2.default.query('SELECT placedby, status FROM parcel WHERE id = $1', [req.params.parcelId]).then(function (r) {
     if (r.rows[0].placedby === _auth.userData.id) {
       var query = 'UPDATE parcel SET _to = $1 where id = $2 RETURNING *';
       _db2.default.query(query, [req.body.to, req.params.parcelId]).then(function (result) {

@@ -45,6 +45,7 @@ router.post('/auth/signup', (req, res, next) => {
           // create the token
           const token = jwt.sign({
             id: r.rows[0].id,
+            isadmin,
             email, 
             username,
           }, process.env.JWT_KEY, {
