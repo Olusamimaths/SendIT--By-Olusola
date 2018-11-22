@@ -1,19 +1,17 @@
-import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import client from '../models/db';
 
-const router = express.Router();
 
-router.post('/auth/login', (req, res, next) => {
+const logIn = (req, res, next) => {
   const { username } = req.body;
   const { email } = req.body;
   const { password } = req.body;
-
+  
   const query = 'SELECT * FROM users WHERE email = $1';
   const values = [email];
   let hash = '';
-  
+    
   client.query(query, values, (err, result) => {
     if (result.rows[0]) {
       hash = result.rows[0].password;
@@ -42,7 +40,7 @@ router.post('/auth/login', (req, res, next) => {
           }, process.env.JWT_KEY, {
             expiresIn: '1h',
           });
-          // success in login
+            // success in login
           return res.status(200).json({
             status: 200,
             message: 'Auth Successful',
@@ -68,6 +66,6 @@ router.post('/auth/login', (req, res, next) => {
       }); 
     }
   });
-});
+};
 
-export default router;
+export default logIn;
