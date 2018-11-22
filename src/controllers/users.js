@@ -40,9 +40,37 @@ router.get('/users/:userId/parcels', checkAuth, (req, res, next) => {
   } else {
     res.status(403).json({
       status: 403,
-      error: 'You are not authorized to access this resource',
+      error: 'You are not authorized from accessing this resource',
     });
   }
 });
+
+// changing the destination of a parcel delivery order
+router.patch('/parcels/:parcelId/destination', checkAuth, (req, res, next) => {
+  client.query('SELECT placedby FROM parcel WHERE id = $1', [req.params.parcelId])
+    .then((r) => {
+      if (r.rows[0].placedby === userData.id) {
+        const query = 'UPDATE parcel SET _to = $1 where id = $2 RETURNING *';
+        client.query(query, [req.body.to, req.params.parcelId])
+          .then((result) => {
+            if (result.rows[0]) {       
+              res.status(200).json({
+                status: 200,
+                data: [
+                  {
+                    to: result.rows[0]._to,
+                    message: 'Parcel destination updated',
+                  },
+                ],
+              });
+            }
+          })
+          .catch(e => res.send(e.stack));
+      } else {
+        res.send({ t: 'false' });
+      }
+    })
+    .catch(e => res.send(e.stack));
+}); // end of route
 
 export default router;
