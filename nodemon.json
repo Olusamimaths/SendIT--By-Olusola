@@ -1,5 +1,6 @@
 {
     "env": {
-        "JWT_KEY": "whateverYouFIndYouget" 
+        "JWT_KEY": "whateverYouFIndYouget",
+        "G_PASS": "oluwatobi@ksp30"
     }
 }

@@ -20,17 +20,19 @@ var changeDestination = function changeDestination(req, res, next) {
         error: 'The parcel you requested cannot be found'
       });
     } else if (r.rows[0].placedby === _auth.userData.id) {
+      userId = r.rows[0].placedby;
       // after checking for permission, run the query
       var query = 'UPDATE parcel SET _to = $1 where id = $2 RETURNING *';
       if (req.body.to !== undefined) {
         // checking that a new desitination was provided
         _db2.default.query(query, [req.body.to, req.params.parcelId]).then(function (result) {
           if (result.rows[0]) {
-            // checking that a parcel was found       
+            // checking that a parcel was found   
+            var newDestination = result.rows[0]._to;
             res.status(200).json({
               status: 200,
               data: [{
-                to: result.rows[0]._to,
+                to: newDestination,
                 message: 'Parcel destination updated'
               }]
             });
@@ -49,12 +51,14 @@ var changeDestination = function changeDestination(req, res, next) {
         });
       }
     } else {
+      // unauthorized access
       res.status(403).send({
         status: 403,
         error: 'You don\'t have permissions to change the destination of this order'
       });
     }
-  }).catch(function (e) {
+  }) // could not select who placed the order, 
+  .catch(function (e) {
     return res.status(404).send({
       status: 404,
       error: 'The parcel delivery you requested cannot be found'
