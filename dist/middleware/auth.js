@@ -16,7 +16,7 @@ var userData = '';
 var checkAuth = function checkAuth(req, res, next) {
   try {
     var token = req.headers.authorization.split(' ')[1];
-    var decoded = _jsonwebtoken2.default.verify(token, process.env.JWT_KEY);
+    var decoded = _jsonwebtoken2.default.verify('thekey');
     exports.userData = userData = decoded;
     next();
   } catch (err) {

@@ -34,6 +34,8 @@ var _admin2 = _interopRequireDefault(_admin);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+require('dotenv').config();
+
 var app = (0, _express2.default)();
 
 // setting the bodyParser
