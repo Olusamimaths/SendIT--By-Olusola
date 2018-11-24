@@ -57,7 +57,7 @@ var changeCurrentLocation = function changeCurrentLocation(req, res, next) {
             var mailOptions = {
               from: 'solathecoder@gmail.com',
               to: '' + response.rows[0].email,
-              subject: 'The status of your order has been changed by an admin',
+              subject: 'The current location of your order has been changed by an admin',
               text: 'Hello ' + response.rows[0].username + ', the current location of your parcel delivery order (id: ' + req.params.parcelId + ')has been changed to: ' + currentLocation,
               replyTo: 'solathecoder@gmail.com'
             };

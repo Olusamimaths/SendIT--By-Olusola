@@ -5,6 +5,7 @@ import signupRoute from './routes/signup';
 import usersRoute from './routes/users';
 import loginRoute from './routes/login';
 import adminRoute from './routes/admin';
+require('dotenv').config();
 
 const app = express();
 
