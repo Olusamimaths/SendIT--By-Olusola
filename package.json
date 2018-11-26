@@ -7,6 +7,7 @@
     "test": "npm run build && mocha --timeout 10000 dist/test/",
     "babel-node": "babel-node --presets=env",
     "start": "npm run build && nodemon --exec babel-node dist/server.js",
+    "postinstall": "bower install && grunt build",
     "build": "babel src --out-dir dist"
   },
   "repository": {
@@ -29,6 +30,7 @@
     "eslint": "^5.9.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
+    "mocha": "^5.2.0",
     "nodemon": "^1.18.6"
   },
   "dependencies": {
