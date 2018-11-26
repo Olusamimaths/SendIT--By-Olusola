@@ -2,11 +2,11 @@
   "name": "sendit",
   "version": "1.0.0",
   "description": "The project files for Andela Facilitator program (Javascript Stack)",
-  "main": "server.js",
+  "main": "dist/server.js",
   "scripts": {
     "test": "npm run build && mocha --timeout 10000 dist/test/",
     "babel-node": "babel-node --presets=env",
-    "start": "npm run build && nodemon --exec babel-node dist/server.js",
+    "start": "node dist/server.js",
     "postinstall": "bower install && grunt build",
     "build": "babel src --out-dir dist"
   },
