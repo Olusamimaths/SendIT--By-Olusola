@@ -54,7 +54,7 @@ const changeCurrentLocation = (req, res, next) => {
                 // send the mails
                 transporter.sendMail(mailOptions, (error, info) => {
                   if (error) {
-                    console.log('error', 'Something went wrong, email not sent', err);
+                    console.log('error', 'Something went wrong, email not sent', error);
                   } else {
                     console.log('success', 'email sent', info);
                   }
