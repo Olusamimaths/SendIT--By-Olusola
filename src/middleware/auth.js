@@ -10,7 +10,6 @@ const checkAuth = (req, res, next) => {
   } catch (err) {
     return res.status(401).json({
       message: 'Auth Failed',
-      err,
     });
   }
 };
