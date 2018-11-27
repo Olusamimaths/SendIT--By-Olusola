@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "The project files for Andela Facilitator program (Javascript Stack)",
   "main": "dist/server.js",
+  "engines": {
+    "node": "10.13.0",
+    "npm": "6.4.1"
+  },
   "scripts": {
     "test": "npm run build && mocha --timeout 10000 dist/test/",
     "babel-node": "babel-node --presets=env",
