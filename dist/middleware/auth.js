@@ -16,12 +16,13 @@ var userData = '';
 var checkAuth = function checkAuth(req, res, next) {
   try {
     var token = req.headers.authorization.split(' ')[1];
-    var decoded = _jsonwebtoken2.default.verify('thekey');
+    var decoded = _jsonwebtoken2.default.verify(token, process.env.JWT_KEY);
     exports.userData = userData = decoded;
     next();
   } catch (err) {
     return res.status(401).json({
-      message: 'Auth Failed'
+      message: 'Auth Failed',
+      err: err
     });
   }
 };

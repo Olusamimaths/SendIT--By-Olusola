@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import client from '../models/db';
-
+require('dotenv').config();
 
 const logIn = (req, res, next) => {
   const { username } = req.body;
@@ -61,7 +61,7 @@ const logIn = (req, res, next) => {
         } 
         res.status(401).json({
           status: 401,
-          message: 'Auth failed',
+          message: 'User not found',
         });
       }); 
     }

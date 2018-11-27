@@ -19,7 +19,7 @@ var changeDestination = function changeDestination(req, res, next) {
         status: 404,
         error: 'The parcel you requested cannot be found'
       });
-    } else if (r.rows[0].placedby === _auth.userData.id) {
+    } else if (r.rows[0].placedby === _auth.userData.id && r.rows[0].status !== 'delivered') {
       userId = r.rows[0].placedby;
       // after checking for permission, run the query
       var query = 'UPDATE parcel SET _to = $1 where id = $2 RETURNING *';

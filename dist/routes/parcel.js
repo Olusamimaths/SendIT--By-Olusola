@@ -26,7 +26,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var router = _express2.default.Router();
 
-// the forwarded routes from app.js is appended to become /api/v1/order
+// the forwarded routes from app.js is appended to become /api/v1/parcels
 router.post('/parcels', _auth.checkAuth, _createParcel2.default);
 
 // Getting all orders 

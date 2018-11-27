@@ -41,58 +41,59 @@ var signUp = function signUp(req, res, next) {
     var value = [email];
     _db2.default.query(text, value, function (err, result) {
       if (result.rows[0]) {
-        return res.status(409).json({
+        res.status(409).json({
           status: 409,
           message: 'Mail exists'
         });
-      }
-    });
-    // hash the password
-    _bcrypt2.default.hash(password, 10, function (err, hash) {
-      if (err) {
-        res.status(500).json({
-          status: 500,
-          error: err
-        });
-      } else if (typeof username !== 'undefined' && typeof firstname !== 'undefined' && typeof lastname !== 'undefined' && typeof othernames !== 'undefined' && typeof password !== 'undefined') {
-        // no field is missing
-        var query = 'INSERT INTO users(username, firstname, lastname, othernames, email, isadmin, registered, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
-        var values = [username, firstname, lastname, othernames, email, isadmin, registered, hash];
-        // run the query
-        _db2.default.query(query, values).then(function (r) {
-          // create the token
-          var token = _jsonwebtoken2.default.sign({
-            id: r.rows[0].id,
-            isadmin: isadmin,
-            email: email,
-            username: username
-          }, process.env.JWT_KEY, {
-            expiresIn: '1h'
-          });
-          // send the response
-          res.status(200).json({
-            status: 200,
-            data: [{
-              token: token,
-              id: r.rows[0].id,
-              firstname: r.rows[0].firstname,
-              lastname: r.rows[0].lastname,
-              othernames: r.rows[0].othernames,
-              email: r.rows[0].email,
-              username: r.rows[0].username,
-              registered: r.rows[0].registered,
-              isAdmin: r.rows[0].isadmin
-            }]
-          });
-        }).catch(function (error) {
-          return res.send(error.stack);
-        });
       } else {
-        // one or more fields are missing
-        res.status(500).json({
-          status: 500,
-          error: 'All fields are requiered'
-        });
+        // hash the password
+        _bcrypt2.default.hash(password, 10, function (err, hash) {
+          if (err) {
+            res.status(500).json({
+              status: 500,
+              error: err
+            });
+          } else if (typeof username !== 'undefined' && typeof firstname !== 'undefined' && typeof lastname !== 'undefined' && typeof othernames !== 'undefined' && typeof password !== 'undefined') {
+            // no field is missing
+            var query = 'INSERT INTO users(username, firstname, lastname, othernames, email, isadmin, registered, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
+            var values = [username, firstname, lastname, othernames, email, isadmin, registered, hash];
+            // run the query
+            _db2.default.query(query, values).then(function (r) {
+              // create the token
+              var token = _jsonwebtoken2.default.sign({
+                id: r.rows[0].id,
+                isadmin: isadmin,
+                email: email,
+                username: username
+              }, process.env.JWT_KEY, {
+                expiresIn: '1h'
+              });
+              // send the response
+              res.status(200).json({
+                status: 200,
+                data: [{
+                  token: token,
+                  id: r.rows[0].id,
+                  firstname: r.rows[0].firstname,
+                  lastname: r.rows[0].lastname,
+                  othernames: r.rows[0].othernames,
+                  email: r.rows[0].email,
+                  username: r.rows[0].username,
+                  registered: r.rows[0].registered,
+                  isAdmin: r.rows[0].isadmin
+                }]
+              });
+            }).catch(function (error) {
+              return res.send(error.stack);
+            });
+          } else {
+            // one or more fields are missing
+            res.status(500).json({
+              status: 500,
+              error: 'All fields are requiered'
+            });
+          }
+        }); // end of password hashing
       }
     });
   } else {

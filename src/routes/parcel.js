@@ -7,7 +7,7 @@ import { checkAuth } from '../middleware/auth';
 const router = express.Router();
 
 
-// the forwarded routes from app.js is appended to become /api/v1/order
+// the forwarded routes from app.js is appended to become /api/v1/parcels
 router.post('/parcels', checkAuth, createParcel);
 
 // Getting all orders 

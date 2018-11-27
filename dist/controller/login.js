@@ -18,6 +18,8 @@ var _db2 = _interopRequireDefault(_db);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+require('dotenv').config();
+
 var logIn = function logIn(req, res, next) {
   var username = req.body.username;
   var email = req.body.email;
@@ -75,7 +77,7 @@ var logIn = function logIn(req, res, next) {
         }
         res.status(401).json({
           status: 401,
-          message: 'Auth failed'
+          message: 'User not found'
         });
       });
     }
