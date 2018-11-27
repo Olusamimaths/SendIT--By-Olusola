@@ -21,8 +21,7 @@ var checkAuth = function checkAuth(req, res, next) {
     next();
   } catch (err) {
     return res.status(401).json({
-      message: 'Auth Failed',
-      err: err
+      message: 'Authentication Failed'
     });
   }
 };

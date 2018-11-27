@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _pg = require('pg');
 
-var connectionString = 'postgres://postgres:solathecoder@localhost:5432/sendIT';
+var connectionString = process.env.DATABASE_URL;
 
 var client = new _pg.Client({
   connectionString: connectionString
