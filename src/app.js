@@ -13,6 +13,17 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// fixing CORS
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://sendit-olusola.herokuapp.com');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+
+  if(req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'POST, PATCH, DELETE, GET');
+    return res.status(200).json({});
+  }
+});
+
 
 app.use('/api/v1/', orderRoutes); // url starting with /api/v1 are forwarded to router parcelRoutes
 app.use('/api/v1/', signupRoute); 
