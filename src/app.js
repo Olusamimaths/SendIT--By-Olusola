@@ -11,6 +11,7 @@ require('dotenv').config();
 const app = express();
 
 app.use(cors());
+app.options('*', cors());
 // fixing CORS
 // app.use((req, res, next) => {
 //   // setting the headers
