@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import orderRoutes from './routes/parcel';
 import signupRoute from './routes/signup';
 import usersRoute from './routes/users';
@@ -10,11 +11,7 @@ require('dotenv').config();
 const app = express();
 
 // fixing CORS
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
+app.use(cors());
 
 
 // setting the bodyParser
