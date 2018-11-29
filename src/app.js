@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 
 // fixing CORS
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://sendit-olusola.herokuapp.com');
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
   if(req.method === 'OPTIONS') {
