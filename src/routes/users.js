@@ -7,8 +7,9 @@ import changeDestination from '../controller/users/changeDestination';
 
 const router = express.Router();
 
-express().use(cors());
-express().options('*', cors());
+const app = express();
+app.use(cors());
+app.options('*', cors())
 
 // getting all parcel Delivery orders
 router.get('/users/:userId/parcels', checkAuth, getMyParcels);

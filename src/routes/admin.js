@@ -6,8 +6,9 @@ import { checkAuth } from '../middleware/auth';
 
 const router = express.Router();
 
-express().use(cors());
-express().options('*', cors());
+const app = express();
+app.use(cors());
+app.options('*', cors())
 
 // changing the status of a parcel delivery order
 router.patch('/parcels/:parcelId/status', checkAuth, changeStatus); // end of route
