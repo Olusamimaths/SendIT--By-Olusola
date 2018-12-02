@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import orderRoutes from './routes/parcel';
 import signupRoute from './routes/signup';
@@ -8,9 +9,10 @@ import adminRoute from './routes/admin';
 require('dotenv').config();
 
 const app = express();
+
 // fix for cors
-// app.use(cors());
-// app.options('*', cors());
+app.use(cors());
+
 
 // fixing CORS
 // app.use((req, res, next) => {
