@@ -5,11 +5,11 @@ import getMyParcels from '../controller/users/getAll';
 import cancelOrder from '../controller/users/cancelOrder';
 import changeDestination from '../controller/users/changeDestination';
 
-const router = express.Router();
-
 const app = express();
 app.use(cors());
-app.options('*', cors())
+app.options('*', cors());
+
+const router = express.Router();
 
 // getting all parcel Delivery orders
 router.get('/users/:userId/parcels', checkAuth, getMyParcels);
