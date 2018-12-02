@@ -11,13 +11,13 @@ require('dotenv').config();
 const app = express();
 
 // fixing CORS
-// app.use((req, res, next) => {
-//   // setting the headers
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-//   res.header('Access-Control-Allow-Methods', 'POST, PATCH, DELETE, GET');
-//   next();
-// });
+app.use((req, res, next) => {
+  // setting the headers
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Methods', 'POST, PATCH, DELETE, GET');
+  next();
+});
 
 
 // setting the bodyParser
@@ -25,8 +25,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // fix for cors
-app.use(cors());
-app.options('*', cors());
+// app.use(cors());
+// app.options('*', cors());
 
 app.use('/api/v1/', orderRoutes); // url starting with /api/v1 are forwarded to router parcelRoutes
 app.use('/api/v1/', signupRoute); 
