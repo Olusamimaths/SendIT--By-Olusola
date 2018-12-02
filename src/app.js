@@ -10,10 +10,6 @@ require('dotenv').config();
 
 const app = express();
 
-// fix for cors
-app.use(cors());
-
-
 // fixing CORS
 // app.use((req, res, next) => {
 //   // setting the headers
@@ -27,6 +23,10 @@ app.use(cors());
 // setting the bodyParser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// fix for cors
+app.use(cors());
+app.options('*', cors());
 
 app.use('/api/v1/', orderRoutes); // url starting with /api/v1 are forwarded to router parcelRoutes
 app.use('/api/v1/', signupRoute); 
