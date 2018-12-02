@@ -7,7 +7,10 @@ import { checkAuth } from '../middleware/auth';
 
 const router = express.Router();
 
-router.use(cors());
+express().use(cors());
+express().options('*', cors());
+
+// router.use(cors());
 
 // the forwarded routes from app.js is appended to become /api/v1/parcels
 router.post('/parcels', checkAuth, createParcel);

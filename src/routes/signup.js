@@ -4,7 +4,8 @@ import signUp from '../controller/signup';
 
 const router = express.Router();
 
-router.use(cors());
+express().use(cors());
+express().options('*', cors());
 
 router.post('/auth/signup', signUp);
 

@@ -3,7 +3,8 @@ import cors from 'cors';
 import logIn from '../controller/login';
 const router = express.Router();
 
-router.use(cors());
+express().use(cors());
+express().options('*', cors());
 
 router.post('/auth/login', logIn);
 
