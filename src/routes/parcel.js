@@ -17,4 +17,6 @@ router.get('/parcels', checkAuth, getAllOrders);
 // Get specific parcel order
 router.get('/parcels/:parcelId', checkAuth, getAOrder);
 
+router.use(cors());
+
 export default router;

@@ -11,4 +11,6 @@ router.patch('/parcels/:parcelId/status', checkAuth, changeStatus); // end of ro
 // changing the current location of a parcel delivery order
 router.patch('/parcels/:parcelId/currentlocation', checkAuth, changeCurrentLocation); // end of route
 
+router.use(cors());
+
 export default router;
