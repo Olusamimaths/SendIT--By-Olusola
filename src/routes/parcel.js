@@ -7,6 +7,7 @@ import { checkAuth } from '../middleware/auth';
 
 const router = express.Router();
 
+router.use(cors());
 
 // the forwarded routes from app.js is appended to become /api/v1/parcels
 router.post('/parcels', checkAuth, createParcel);
@@ -16,7 +17,5 @@ router.get('/parcels', checkAuth, getAllOrders);
 
 // Get specific parcel order
 router.get('/parcels/:parcelId', checkAuth, getAOrder);
-
-router.use(cors());
 
 export default router;

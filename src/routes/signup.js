@@ -4,7 +4,8 @@ import signUp from '../controller/signup';
 
 const router = express.Router();
 
+router.use(cors());
+
 router.post('/auth/signup', signUp);
 
-router.use(cors())
 export default router;

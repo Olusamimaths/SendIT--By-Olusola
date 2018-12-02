@@ -1,10 +1,13 @@
 import express from 'express';
+import cors from 'cors';
 import { checkAuth } from '../middleware/auth';
 import getMyParcels from '../controller/users/getAll';
 import cancelOrder from '../controller/users/cancelOrder';
 import changeDestination from '../controller/users/changeDestination';
 
 const router = express.Router();
+
+router.use(cors());
 
 // getting all parcel Delivery orders
 router.get('/users/:userId/parcels', checkAuth, getMyParcels);
