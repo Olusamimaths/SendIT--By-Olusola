@@ -1,5 +1,4 @@
 import express from 'express';
-import cors from 'cors';
 import getAOrder from '../controller/parcels/getAOrder';
 import getAllOrders from '../controller/parcels/getAllOrders';
 import createParcel from '../controller/parcels/createParcel';
