@@ -5,11 +5,10 @@ import getAllOrders from '../controller/parcels/getAllOrders';
 import createParcel from '../controller/parcels/createParcel';
 import { checkAuth } from '../middleware/auth';
 
-const app = express();
-app.use(cors());
-app.options('*', cors());
-
 const router = express.Router();
+
+router.use(cors());
+router.options('*', cors());
 
 // router.use(cors());
 
