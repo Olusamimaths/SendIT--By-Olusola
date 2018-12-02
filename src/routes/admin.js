@@ -7,9 +7,9 @@ import { checkAuth } from '../middleware/auth';
 const router = express.Router();
 
 // changing the status of a parcel delivery order
-router.patch('/parcels/:parcelId/status', cors(), checkAuth, changeStatus); // end of route
+router.patch('/parcels/:parcelId/status', checkAuth, changeStatus, cors()); // end of route
 
 // changing the current location of a parcel delivery order
-router.patch('/parcels/:parcelId/currentlocation', cors(), checkAuth, changeCurrentLocation); // end of route
+router.patch('/parcels/:parcelId/currentlocation', checkAuth, changeCurrentLocation, cors()); // end of route
 
 export default router;

@@ -9,12 +9,12 @@ const router = express.Router();
 
 
 // the forwarded routes from app.js is appended to become /api/v1/parcels
-router.post('/parcels', cors(), checkAuth, createParcel);
+router.post('/parcels', checkAuth, createParcel, cors());
 
 // Getting all orders 
-router.get('/parcels', cors(), checkAuth, getAllOrders);
+router.get('/parcels', checkAuth, getAllOrders, cors());
 
 // Get specific parcel order
-router.get('/parcels/:parcelId', cors(), checkAuth, getAOrder);
+router.get('/parcels/:parcelId', checkAuth, getAOrder, cors());
 
 export default router;
