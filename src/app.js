@@ -10,17 +10,20 @@ require('dotenv').config();
 
 const app = express();
 // fix for cors
-app.use(cors());
-app.options('*', cors());
+// app.use(cors());
+// app.options('*', cors());
 
 // fixing CORS
-// app.use((req, res, next) => {
-//   // setting the headers
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-//   res.header('Access-Control-Allow-Methods', 'POST, PATCH, DELETE, GET');
-//   next();
-// });
+app.use((req, res, next) => {
+  // setting the headers
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'POST, PATCH, DELETE, GET');
+    return res.status(200).json({});
+  }
+  next();
+});
 
 
 // setting the bodyParser
