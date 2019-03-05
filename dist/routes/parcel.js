@@ -8,6 +8,10 @@ var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
+var _cors = require('cors');
+
+var _cors2 = _interopRequireDefault(_cors);
+
 var _getAOrder = require('../controller/parcels/getAOrder');
 
 var _getAOrder2 = _interopRequireDefault(_getAOrder);
@@ -25,6 +29,11 @@ var _auth = require('../middleware/auth');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = _express2.default.Router();
+
+router.use((0, _cors2.default)());
+router.options('*', (0, _cors2.default)());
+
+// router.use(cors());
 
 // the forwarded routes from app.js is appended to become /api/v1/parcels
 router.post('/parcels', _auth.checkAuth, _createParcel2.default);

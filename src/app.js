@@ -1,12 +1,10 @@
 import express from 'express';
-import cors from 'cors';
 import bodyParser from 'body-parser';
 import orderRoutes from './routes/parcel';
 import signupRoute from './routes/signup';
 import usersRoute from './routes/users';
 import loginRoute from './routes/login';
 import adminRoute from './routes/admin';
-require('dotenv').config();
 
 const app = express();
 
