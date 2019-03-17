@@ -5,6 +5,7 @@ import signupRoute from './routes/signup';
 import usersRoute from './routes/users';
 import loginRoute from './routes/login';
 import adminRoute from './routes/admin';
+import expressValidator from 'express-validator';
 
 const app = express();
 
@@ -32,4 +33,6 @@ app.use((error, req, res, next) => {
     },
   });
 });
+
+app.use(expressValidator())
 export default app;

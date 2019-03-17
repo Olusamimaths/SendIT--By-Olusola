@@ -32,9 +32,9 @@ const getAOrder = (req, res, next) => {
           });
         }
       })
-      .catch(e => res.send(409).json({ error: e }));
+      .catch(e => res.status(409).json({ error: e }));
   } else {
-    res.send({
+    res.status(403).json({
       status: 403,
       error: 'Invalid parcel id',
     });

@@ -2,11 +2,8 @@ import { userData } from '../../middleware/auth';
 import client from '../../models/db';
 
 const createParcel = (req, res, next) => {
-  const { weight } = req.body;
+  const { weight, from, to, currentLocation } = req.body;
   const weightMetric = `${weight} kg`;
-  const { from } = req.body;
-  const { to } = req.body;
-  const { currentLocation } = req.body;
   const status = 'Placed';
   const sentOn = 'NOW()';
   const deliveredOn = 'NOW()';

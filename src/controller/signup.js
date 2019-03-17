@@ -10,12 +10,7 @@ function validateEmail(email) {
 
 const signUp = (req, res, next) => {
   // get the submitted values
-  const { username } = req.body;
-  const { firstname } = req.body;
-  const { lastname } = req.body;
-  const { othernames } = req.body;
-  const { email } = req.body;
-  const { password } = req.body;
+  const { username, firstname, lastname, othernames, email, password } = req.body;
   const isadmin = false;
   const registered = 'NOW()';
 
@@ -84,7 +79,7 @@ const signUp = (req, res, next) => {
       }
     });
   } else { // end of validateEmail
-    res.status(403).send({
+    res.status(500).send({
       status: 500,
       error: 'Invalid email format',
     });

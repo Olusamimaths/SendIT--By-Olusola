@@ -1,12 +1,22 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import client from '../models/db';
-require('dotenv').config();
+import { check, validationResult } from 'express-validator/check'
 
 const logIn = (req, res, next) => {
-  const { username } = req.body;
-  const { email } = req.body;
-  const { password } = req.body;
+  const { email, password } = req.body;
+   
+  check('email','Email field is required to login').notEmpty();
+  check('email', 'Email is not valid').isEmail(); 
+  check('password', 'Password field is required to login').isLength({min: 1});
+
+  const errors = validationResult(req)
+  
+  if(errors) {
+    return res.status(422).json({
+      errors: "Invalid inputs"
+    })
+  }
   
   const query = 'SELECT * FROM users WHERE email = $1';
   const values = [email];
