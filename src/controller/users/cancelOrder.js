@@ -2,7 +2,7 @@ import { userData } from '../../middleware/auth';
 import client from '../../models/db';
 
 const cancelOrder = (req, res, next) => {
-  client.query('SELECT placedby FROM parcel WHERE id = $1', [req.params.parcelId])
+  client.query('SELECT placedby FROM parcels WHERE id = $1', [req.params.parcelId])
     .then((r) => {
       if (r.rowCount === 0) {
         res.status(404).send({

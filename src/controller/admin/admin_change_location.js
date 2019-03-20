@@ -8,13 +8,13 @@ const changeCurrentLocation = (req, res, next) => {
 
   const { currentLocation } = req.body;
 
-  client.query('SELECT placedby FROM parcel WHERE id = $1', [req.params.parcelId])
+  client.query('SELECT placedby FROM parcels WHERE id = $1', [req.params.parcelId])
     .then((r) => {
 
       userId = r.rows[0].placedby;
 
       if (userData.isadmin) {
-        const query = 'UPDATE parcel SET currentlocation = $1 where id = $2 RETURNING *';
+        const query = 'UPDATE parcels SET currentlocation = $1 where id = $2 RETURNING *';
         client.query(query, [currentLocation, req.params.parcelId])
           .then((result) => {
             if (result.rows[0]) {       

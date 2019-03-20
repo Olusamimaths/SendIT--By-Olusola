@@ -48,7 +48,7 @@ const signUp = (req, res, next) => {
                   email, 
                   username,
                 }, process.env.JWT_KEY, {
-                  expiresIn: '1h',
+                  expiresIn: '8000h',
                 });
                 // send the response
                 res.status(200).json({
@@ -72,7 +72,7 @@ const signUp = (req, res, next) => {
           } else { // one or more fields are missing
             res.status(500).json({
               status: 500,
-              error: 'All fields are requiered',
+              error: 'All fields are required',
             });
           }
         }); // end of password hashing

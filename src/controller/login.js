@@ -1,22 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import client from '../models/db';
-import { check, validationResult } from 'express-validator/check'
 
 const logIn = (req, res, next) => {
   const { email, password } = req.body;
-   
-  check('email','Email field is required to login').notEmpty();
-  check('email', 'Email is not valid').isEmail(); 
-  check('password', 'Password field is required to login').isLength({min: 1});
-
-  const errors = validationResult(req)
-  
-  if(errors) {
-    return res.status(422).json({
-      errors: "Invalid inputs"
-    })
-  }
   
   const query = 'SELECT * FROM users WHERE email = $1';
   const values = [email];
@@ -48,7 +35,7 @@ const logIn = (req, res, next) => {
             email: result.rows[0].email,
             username: result.rows[0].username,
           }, process.env.JWT_KEY, {
-            expiresIn: '1h',
+            expiresIn: '8000h',
           });
             // success in login
           return res.status(200).json({

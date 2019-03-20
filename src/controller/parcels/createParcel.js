@@ -1,4 +1,3 @@
-import { userData } from '../../middleware/auth';
 import client from '../../models/db';
 
 const createParcel = (req, res, next) => {
@@ -11,8 +10,8 @@ const createParcel = (req, res, next) => {
   // validate the values
   if (typeof weight !== 'undefined' && typeof from !== 'undefined' 
   && typeof to !== 'undefined' && typeof currentLocation !== 'undefined') {
-    const query = 'INSERT INTO parcel(placedby, weight, weightMetric, senton, deliveredon, status, _from, _to, currentlocation) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id';
-    const values = [userData.id, weight, weightMetric, sentOn, deliveredOn, status.toLowerCase(), from.toLowerCase(), to.toLowerCase(), currentLocation.toLowerCase()];
+    const query = 'INSERT INTO parcels(placedby, weight, weightMetric, senton, deliveredon, status, _from, _to, currentlocation) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id';
+    const values = [req.user.id, weight, weightMetric, sentOn, deliveredOn, status.toLowerCase(), from.toLowerCase(), to.toLowerCase(), currentLocation.toLowerCase()];
 
     // define the query
     client.query(query, values)

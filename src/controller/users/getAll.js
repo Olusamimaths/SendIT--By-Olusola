@@ -1,10 +1,9 @@
-import { userData } from '../../middleware/auth';
 import client from '../../models/db';
 
 const getMyParcels = (req, res, next) => {
-  const query = 'SELECT id, placedby, weight, weightMetric, senton, deliveredon, status, _from, _to, currentlocation FROM parcel WHERE placedby = $1';
-  if (userData.id === req.params.userId) { // check that the logged in user is the one asking for his/her orders
-    client.query(query, [userData.id])
+  const query = 'SELECT id, placedby, weight, weightMetric, senton, deliveredon, status, _from, _to, currentlocation FROM parcels WHERE placedby = $1';
+  if (req.userData.id == req.params.userId) { // check that the logged in user is the one asking for his/her orders
+    client.query(query, [req.userData.id])
       .then((result) => {
         const arr = [];
         result.rows.forEach((i) => {
@@ -37,7 +36,7 @@ const getMyParcels = (req, res, next) => {
   } else {
     res.status(403).json({
       status: 403,
-      error: 'You are not authorized from accessing this resource',
+      error: 'You are not authorized from accessing this resource.',
     });
   }
 };

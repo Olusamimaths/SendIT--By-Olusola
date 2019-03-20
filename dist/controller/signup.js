@@ -25,12 +25,13 @@ function validateEmail(email) {
 
 var signUp = function signUp(req, res, next) {
   // get the submitted values
-  var username = req.body.username;
-  var firstname = req.body.firstname;
-  var lastname = req.body.lastname;
-  var othernames = req.body.othernames;
-  var email = req.body.email;
-  var password = req.body.password;
+  var _req$body = req.body,
+      username = _req$body.username,
+      firstname = _req$body.firstname,
+      lastname = _req$body.lastname,
+      othernames = _req$body.othernames,
+      email = _req$body.email,
+      password = _req$body.password;
 
   var isadmin = false;
   var registered = 'NOW()';
@@ -90,7 +91,7 @@ var signUp = function signUp(req, res, next) {
             // one or more fields are missing
             res.status(500).json({
               status: 500,
-              error: 'All fields are requiered'
+              error: 'All fields are required'
             });
           }
         }); // end of password hashing
@@ -98,7 +99,7 @@ var signUp = function signUp(req, res, next) {
     });
   } else {
     // end of validateEmail
-    res.status(403).send({
+    res.status(500).send({
       status: 500,
       error: 'Invalid email format'
     });

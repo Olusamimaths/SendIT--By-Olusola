@@ -22,12 +22,12 @@ var changeCurrentLocation = function changeCurrentLocation(req, res, next) {
   var currentLocation = req.body.currentLocation;
 
 
-  _db2.default.query('SELECT placedby FROM parcel WHERE id = $1', [req.params.parcelId]).then(function (r) {
+  _db2.default.query('SELECT placedby FROM parcels WHERE id = $1', [req.params.parcelId]).then(function (r) {
 
     userId = r.rows[0].placedby;
 
     if (_auth.userData.isadmin) {
-      var query = 'UPDATE parcel SET currentlocation = $1 where id = $2 RETURNING *';
+      var query = 'UPDATE parcels SET currentlocation = $1 where id = $2 RETURNING *';
       _db2.default.query(query, [currentLocation, req.params.parcelId]).then(function (result) {
         if (result.rows[0]) {
           res.status(200).json({

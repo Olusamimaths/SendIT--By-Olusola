@@ -25,10 +25,10 @@ var logIn = function logIn(req, res, next) {
       email = _req$body.email,
       password = _req$body.password;
 
-  //check('email','Email field is required to login').notEmpty();
 
+  (0, _check.check)('email', 'Email field is required to login').notEmpty();
   (0, _check.check)('email', 'Email is not valid').isEmail();
-  //check('password', 'Password field is required to login').notEmpty();
+  (0, _check.check)('password', 'Password field is required to login').isLength({ min: 1 });
 
   var errors = (0, _check.validationResult)(req);
 
