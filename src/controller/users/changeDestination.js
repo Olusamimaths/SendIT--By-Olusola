@@ -1,7 +1,14 @@
-import { userData } from '../../middleware/auth';
 import client from '../../models/db';
+import Joi from'joi';
+
+const schema = Joi.object().keys({
+  destination: Joi.string().min(2).required()
+})
 
 const changeDestination = (req, res, next) => {
+  const destination = req.body.to;
+  const validationResult = Joi.validate({ destination }, schema );
+
   client.query('SELECT placedby, status FROM parcels WHERE id = $1', [req.params.parcelId])
     .then((r) => {
       if (r.rowCount === 0) {
@@ -9,11 +16,10 @@ const changeDestination = (req, res, next) => {
           status: 404,
           error: 'The parcel you requested cannot be found',
         });
-      } else if ((r.rows[0].placedby === userData.id) && (r.rows[0].status !== 'delivered')) {
-        userId = r.rows[0].placedby;  
+      } else if ((r.rows[0].placedby === req.userData.id) && (r.rows[0].status !== 'delivered')) {
         // after checking for permission, run the query
-        const query = 'UPDATE parcel SET _to = $1 where id = $2 RETURNING *';
-        if (req.body.to !== undefined) { // checking that a new desitination was provided
+        const query = 'UPDATE parcels SET _to = $1 where id = $2 RETURNING *';
+        if (!validationResult.error) { // checking that a new desitination was provided
           client.query(query, [req.body.to, req.params.parcelId])
             .then((result) => {
               if (result.rows[0]) { // checking that a parcel was found   
@@ -31,12 +37,12 @@ const changeDestination = (req, res, next) => {
             })
             .catch(e => res.status(404).send({
               status: 404,
-              error: 'The parcel delivery you requested cannot be found',
+              error: 'Could not set the new destination',
             }));
         } else { // new destination not specified
           res.status(403).send({ 
             status: 403,
-            error: 'You have to specify the new destination',
+            error: 'You have to specify the a valid destination',
           });
         }
       } else { // unauthorized access

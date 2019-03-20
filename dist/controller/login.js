@@ -16,8 +16,6 @@ var _db = require('../models/db');
 
 var _db2 = _interopRequireDefault(_db);
 
-var _check = require('express-validator/check');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var logIn = function logIn(req, res, next) {
@@ -25,18 +23,6 @@ var logIn = function logIn(req, res, next) {
       email = _req$body.email,
       password = _req$body.password;
 
-
-  (0, _check.check)('email', 'Email field is required to login').notEmpty();
-  (0, _check.check)('email', 'Email is not valid').isEmail();
-  (0, _check.check)('password', 'Password field is required to login').isLength({ min: 1 });
-
-  var errors = (0, _check.validationResult)(req);
-
-  if (errors) {
-    return res.status(422).json({
-      errors: "Invalid inputs"
-    });
-  }
 
   var query = 'SELECT * FROM users WHERE email = $1';
   var values = [email];
@@ -68,7 +54,7 @@ var logIn = function logIn(req, res, next) {
             email: result.rows[0].email,
             username: result.rows[0].username
           }, process.env.JWT_KEY, {
-            expiresIn: '1h'
+            expiresIn: '8000h'
           });
           // success in login
           return res.status(200).json({

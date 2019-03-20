@@ -1,19 +1,23 @@
 import nodemailer from 'nodemailer';
-import { userData } from '../../middleware/auth';
 import client from '../../models/db';
+import Joi from'joi';
+
+const schema = Joi.object().keys({
+  currentLocation: Joi.string().min(3).required()
+})
 
 let userId = '';
 
 const changeCurrentLocation = (req, res, next) => {
 
   const { currentLocation } = req.body;
-
-  client.query('SELECT placedby FROM parcels WHERE id = $1', [req.params.parcelId])
+  const validationResult = Joi.validate({ currentLocation }, schema );
+  if(!validationResult.error) {
+    client.query('SELECT placedby FROM parcels WHERE id = $1', [req.params.parcelId])
     .then((r) => {
-
+      //get the user id
       userId = r.rows[0].placedby;
-
-      if (userData.isadmin) {
+      if (req.userData.isAdmin) {
         const query = 'UPDATE parcels SET currentlocation = $1 where id = $2 RETURNING *';
         client.query(query, [currentLocation, req.params.parcelId])
           .then((result) => {
@@ -62,7 +66,7 @@ const changeCurrentLocation = (req, res, next) => {
               }
             }); // End of query to select email
             // END OF EMAIL ///////////////////////////////////////////////////////
-          }) // could not updat eh parcel
+          }) // could not update parcel
           .catch(e => res.status(404).send({
             status: 404,
             error: 'The parcel delivery you requested cannot be found',
@@ -76,8 +80,14 @@ const changeCurrentLocation = (req, res, next) => {
     }) // couldnot select who placed the order
     .catch(e => res.status(404).send({
       status: 404,
-      error: 'The parcel delivery you requested cannot be found',
+      error: 'The parcel delivery you requested does not exist',
     }));
+  } else {
+    res.status(409).send({
+      status: 409,
+      error: 'Invalid input, new location must be more than 3 characters and less than 100.'
+    })
+  }
 };
 
 export default changeCurrentLocation;
