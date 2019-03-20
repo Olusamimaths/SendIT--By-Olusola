@@ -14,7 +14,7 @@ var getAOrder = function getAOrder(req, res, next) {
   // eslint-disable-next-line radix
   // eslint-disable-next-line no-restricted-globals
   if (!isNaN(parseInt(req.params.parcelId))) {
-    var query = 'SELECT * FROM parcel where id = $1';
+    var query = 'SELECT * FROM parcels where id = $1';
     var value = [req.params.parcelId];
     // run the query  
     _db2.default.query(query, value).then(function (result) {
@@ -22,6 +22,8 @@ var getAOrder = function getAOrder(req, res, next) {
         res.status(200).json({
           status: 200,
           data: [{
+            id: result.rows[0].id,
+            placedBy: result.rows[0].placedby,
             weight: result.rows[0].weight,
             weightMetric: result.rows[0].weightMetric,
             sentOn: result.rows[0].senton,
@@ -39,10 +41,10 @@ var getAOrder = function getAOrder(req, res, next) {
         });
       }
     }).catch(function (e) {
-      return res.send(409).json({ error: e });
+      return res.status(409).json({ error: e });
     });
   } else {
-    res.send({
+    res.status(403).json({
       status: 403,
       error: 'Invalid parcel id'
     });

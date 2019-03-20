@@ -2,7 +2,7 @@ import { userData } from '../../middleware/auth';
 import client from '../../models/db';
 
 const changeDestination = (req, res, next) => {
-  client.query('SELECT placedby, status FROM parcel WHERE id = $1', [req.params.parcelId])
+  client.query('SELECT placedby, status FROM parcels WHERE id = $1', [req.params.parcelId])
     .then((r) => {
       if (r.rowCount === 0) {
         res.status(404).send({

@@ -1,13 +1,12 @@
 import client from '../../models/db';
 
 const getAllOrders = (req, res, next) => {
-  const query = 'SELECT id, placedBy, weight, weightmetric, senton, deliveredon, status, _from, _to, currentlocation FROM parcel';
+  const query = 'SELECT * FROM parcels';
   client.query(query)
     .then((result) => {
       const arr = [];
       result.rows.forEach((i) => {
         arr.push({
-          status: 200,
           data: [
             {
               id: i.id,
@@ -25,6 +24,7 @@ const getAllOrders = (req, res, next) => {
         });
       });
       res.status(200).json({
+        status: 200,
         parcelOrders: arr,
       });
     })

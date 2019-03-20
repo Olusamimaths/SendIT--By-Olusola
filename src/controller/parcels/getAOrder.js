@@ -4,7 +4,7 @@ const getAOrder = (req, res, next) => {
   // eslint-disable-next-line radix
   // eslint-disable-next-line no-restricted-globals
   if (!isNaN(parseInt(req.params.parcelId))) {
-    const query = 'SELECT * FROM parcel where id = $1';
+    const query = 'SELECT * FROM parcels where id = $1';
     const value = [req.params.parcelId];
     // run the query  
     client.query(query, value)
@@ -14,6 +14,8 @@ const getAOrder = (req, res, next) => {
             status: 200,
             data: [
               {
+                id: result.rows[0].id,
+                placedBy: result.rows[0].placedby,
                 weight: result.rows[0].weight,
                 weightMetric: result.rows[0].weightMetric,
                 sentOn: result.rows[0].senton,
@@ -32,9 +34,9 @@ const getAOrder = (req, res, next) => {
           });
         }
       })
-      .catch(e => res.send(409).json({ error: e }));
+      .catch(e => res.status(409).json({ error: e }));
   } else {
-    res.send({
+    res.status(403).json({
       status: 403,
       error: 'Invalid parcel id',
     });

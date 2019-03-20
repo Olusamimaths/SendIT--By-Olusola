@@ -10,12 +10,7 @@ function validateEmail(email) {
 
 const signUp = (req, res, next) => {
   // get the submitted values
-  const { username } = req.body;
-  const { firstname } = req.body;
-  const { lastname } = req.body;
-  const { othernames } = req.body;
-  const { email } = req.body;
-  const { password } = req.body;
+  const { username, firstname, lastname, othernames, email, password } = req.body;
   const isadmin = false;
   const registered = 'NOW()';
 
@@ -53,7 +48,7 @@ const signUp = (req, res, next) => {
                   email, 
                   username,
                 }, process.env.JWT_KEY, {
-                  expiresIn: '1h',
+                  expiresIn: '8000h',
                 });
                 // send the response
                 res.status(200).json({
@@ -77,14 +72,14 @@ const signUp = (req, res, next) => {
           } else { // one or more fields are missing
             res.status(500).json({
               status: 500,
-              error: 'All fields are requiered',
+              error: 'All fields are required',
             });
           }
         }); // end of password hashing
       }
     });
   } else { // end of validateEmail
-    res.status(403).send({
+    res.status(500).send({
       status: 500,
       error: 'Invalid email format',
     });

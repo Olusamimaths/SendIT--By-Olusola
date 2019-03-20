@@ -4,8 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _auth = require('../../middleware/auth');
-
 var _db = require('../../models/db');
 
 var _db2 = _interopRequireDefault(_db);
@@ -13,10 +11,10 @@ var _db2 = _interopRequireDefault(_db);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var getMyParcels = function getMyParcels(req, res, next) {
-  var query = 'SELECT id, placedby, weight, weightMetric, senton, deliveredon, status, _from, _to, currentlocation FROM parcel WHERE placedby = $1';
-  if (_auth.userData.id === req.params.userId) {
+  var query = 'SELECT id, placedby, weight, weightMetric, senton, deliveredon, status, _from, _to, currentlocation FROM parcels WHERE placedby = $1';
+  if (req.user.id === req.params.userId) {
     // check that the logged in user is the one asking for his/her orders
-    _db2.default.query(query, [_auth.userData.id]).then(function (result) {
+    _db2.default.query(query, [req.user.id]).then(function (result) {
       var arr = [];
       result.rows.forEach(function (i) {
         arr.push({

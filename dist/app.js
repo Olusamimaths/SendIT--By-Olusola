@@ -32,7 +32,17 @@ var _admin = require('./routes/admin');
 
 var _admin2 = _interopRequireDefault(_admin);
 
+var _expressValidator = require('express-validator');
+
+var _expressValidator2 = _interopRequireDefault(_expressValidator);
+
+var _dotenv = require('dotenv');
+
+var _dotenv2 = _interopRequireDefault(_dotenv);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_dotenv2.default.config();
 
 var app = (0, _express2.default)();
 
@@ -60,4 +70,7 @@ app.use(function (error, req, res, next) {
     }
   });
 });
+
+app.use((0, _expressValidator2.default)());
+
 exports.default = app;

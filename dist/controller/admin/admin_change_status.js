@@ -19,7 +19,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var userId = '';
 
 var changeStatus = function changeStatus(req, res, next) {
-  _db2.default.query('SELECT placedby FROM parcel WHERE id = $1', [req.params.parcelId]).then(function (r) {
+  _db2.default.query('SELECT placedby FROM parcels WHERE id = $1', [req.params.parcelId]).then(function (r) {
     if (r.rowCount === 0) {
       return res.status(403).send({
         status: 403,
@@ -30,7 +30,7 @@ var changeStatus = function changeStatus(req, res, next) {
     userId = r.rows[0].placedby;
     // checking if logged in user is admin
     if (_auth.userData.isadmin) {
-      var query = 'UPDATE parcel SET status = $1 where id = $2 RETURNING *';
+      var query = 'UPDATE parcels SET status = $1 where id = $2 RETURNING *';
       _db2.default.query(query, [req.body.status, req.params.parcelId]).then(function (result) {
         // get the new status
         var newStatus = result.rows[0].status;

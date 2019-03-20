@@ -16,15 +16,27 @@ var _db = require('../models/db');
 
 var _db2 = _interopRequireDefault(_db);
 
+var _check = require('express-validator/check');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-require('dotenv').config();
-
 var logIn = function logIn(req, res, next) {
-  var username = req.body.username;
-  var email = req.body.email;
-  var password = req.body.password;
+  var _req$body = req.body,
+      email = _req$body.email,
+      password = _req$body.password;
 
+
+  (0, _check.check)('email', 'Email field is required to login').notEmpty();
+  (0, _check.check)('email', 'Email is not valid').isEmail();
+  (0, _check.check)('password', 'Password field is required to login').isLength({ min: 1 });
+
+  var errors = (0, _check.validationResult)(req);
+
+  if (errors) {
+    return res.status(422).json({
+      errors: "Invalid inputs"
+    });
+  }
 
   var query = 'SELECT * FROM users WHERE email = $1';
   var values = [email];

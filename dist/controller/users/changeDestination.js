@@ -13,7 +13,7 @@ var _db2 = _interopRequireDefault(_db);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var changeDestination = function changeDestination(req, res, next) {
-  _db2.default.query('SELECT placedby, status FROM parcel WHERE id = $1', [req.params.parcelId]).then(function (r) {
+  _db2.default.query('SELECT placedby, status FROM parcels WHERE id = $1', [req.params.parcelId]).then(function (r) {
     if (r.rowCount === 0) {
       res.status(404).send({
         status: 404,

@@ -5,7 +5,7 @@ import client from '../../models/db';
 let userId = '';
 
 const changeStatus = (req, res, next) => {
-  client.query('SELECT placedby FROM parcel WHERE id = $1', [req.params.parcelId])
+  client.query('SELECT placedby FROM parcels WHERE id = $1', [req.params.parcelId])
     .then((r) => {
       if (r.rowCount === 0) {
         return res.status(403).send({ 
@@ -17,7 +17,7 @@ const changeStatus = (req, res, next) => {
       userId = r.rows[0].placedby;
       // checking if logged in user is admin
       if (userData.isadmin) {
-        const query = 'UPDATE parcel SET status = $1 where id = $2 RETURNING *';
+        const query = 'UPDATE parcels SET status = $1 where id = $2 RETURNING *';
         client.query(query, [req.body.status, req.params.parcelId])
           .then((result) => {
             // get the new status
