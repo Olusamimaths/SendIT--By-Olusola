@@ -28,7 +28,7 @@ const getAllOrders = (req, res, next) => {
         parcelOrders: arr,
       });
     })
-    .catch(e => res.status(409).json({
+    .catch(() => res.status(409).json({
       status: 409,
       error: 'Could not fetch orders',
     }));

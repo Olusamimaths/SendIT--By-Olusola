@@ -34,7 +34,7 @@ var getAllOrders = function getAllOrders(req, res, next) {
       status: 200,
       parcelOrders: arr
     });
-  }).catch(function (e) {
+  }).catch(function () {
     return res.status(409).json({
       status: 409,
       error: 'Could not fetch orders'

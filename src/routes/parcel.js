@@ -15,7 +15,7 @@ router.options('*', cors());
 // the forwarded routes from app.js is appended to become /api/v1/parcels
 router.post('/parcels', checkAuth, createParcel);
 
-// Getting all orders 
+// Getting all orders
 router.get('/parcels', checkAuth, getAllOrders);
 
 // Get specific parcel order
