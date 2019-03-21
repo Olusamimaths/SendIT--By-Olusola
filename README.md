@@ -6,18 +6,18 @@ SendIT API is an API that provides users with ability to create parcel delivery 
 
 ## How It Works:
 * Users can:
-- Create user accounts 
-- Sign in to the app
-- Create a parcel delivery order
-- Get all parcel delivery orders
-- Get a specific parcel delivery order
-- Cancel a parcel delivery order
-- Change the destination of a parcel delivery order
+  - Create user accounts 
+  - Sign in to the app
+  - Create a parcel delivery order
+  - Get all parcel delivery orders
+  - Get a specific parcel delivery order
+  - Cancel a parcel delivery order
+  - Change the destination of a parcel delivery order
 
 * Admins can:
-- View all parcel delivery orders in the application.
-- Change the status of a parcel delivery order.
-- Change the present location of a parcel delivery order
+  - View all parcel delivery orders in the application.
+  - Change the status of a parcel delivery order.
+  - Change the present location of a parcel delivery order
 
 ## Technologies
 - Node.js
