@@ -17,7 +17,7 @@ const schema = Joi.object().keys({
 const signUp = (req, res, next) => {
   // get the submitted values
   const { username, firstname, lastname, othernames, email, password } = req.body;
-  const isadmin = false;
+  const isAdmin = false;
   const registered = 'NOW()';
   const result = Joi.validate({
     username, firstname, lastname, othernames, password, email
@@ -44,7 +44,7 @@ const signUp = (req, res, next) => {
             });
           } else  {
             // no field is missing
-            const query = 'INSERT INTO users(username, firstname, lastname, othernames, email, isadmin, registered, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
+            const query = 'INSERT INTO users(username, firstname, lastname, othernames, email, isAdmin, registered, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
             const values = [username, firstname, lastname, othernames, email, isadmin, registered, hash];
             // run the query
             client.query(query, values)
