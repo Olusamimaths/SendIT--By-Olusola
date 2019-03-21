@@ -29,7 +29,7 @@ var createParcelTable = 'CREATE TABLE parcels (id SERIAL PRIMARY KEY NOT NULL,  
 
 var runQuery = function runQuery(query) {
   pool.query(query).then(function () {
-    return console.log("Success in running table creation query.");
+    return console.log('Success in running table creation query.');
   }).catch(function (e) {
     return console.log(e);
   });
@@ -45,9 +45,9 @@ var runQuery = function runQuery(query) {
 var client = new _pg.Client({ connectionString: connectionString });
 
 client.connect().then(function () {
-  return console.log("Client is connected");
+  return console.log('Client is connected');
 }).catch(function () {
-  return console.log("Client could not connect");
+  return console.log('Client could not connect');
 });
 
 exports.default = client;

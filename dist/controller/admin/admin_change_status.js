@@ -8,13 +8,13 @@ var _nodemailer = require('nodemailer');
 
 var _nodemailer2 = _interopRequireDefault(_nodemailer);
 
-var _db = require('../../models/db');
-
-var _db2 = _interopRequireDefault(_db);
-
 var _joi = require('joi');
 
 var _joi2 = _interopRequireDefault(_joi);
+
+var _db = require('../../models/db');
+
+var _db2 = _interopRequireDefault(_db);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

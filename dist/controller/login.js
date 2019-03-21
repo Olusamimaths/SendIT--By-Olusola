@@ -12,13 +12,13 @@ var _jsonwebtoken = require('jsonwebtoken');
 
 var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
 
-var _db = require('../models/db');
-
-var _db2 = _interopRequireDefault(_db);
-
 var _joi = require('joi');
 
 var _joi2 = _interopRequireDefault(_joi);
+
+var _db = require('../models/db');
+
+var _db2 = _interopRequireDefault(_db);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51,45 +51,44 @@ var logIn = function logIn(req, res, next) {
           status: 409,
           error: 'Auth failed'
         });
-      } else {
-        // verifying the password 
-        _bcrypt2.default.compare(password, hash, function (err, compareRes) {
-          if (!compareRes) {
-            return res.status(409).json({
-              status: 409,
-              message: 'Auth failed'
-            });
-          }
-          // if comparision is correct
-          if (compareRes) {
-            // create the token
-            var token = _jsonwebtoken2.default.sign({
-              id: result.rows[0].id,
-              isAdmin: result.rows[0].isadmin,
-              email: result.rows[0].email,
-              username: result.rows[0].username
-            }, process.env.JWT_KEY, {
-              expiresIn: '8000h'
-            });
-            // success in login
-            return res.status(200).json({
-              status: 200,
-              message: 'Auth Successful',
-              data: [{
-                token: token,
-                id: result.rows[0].id,
-                firstname: result.rows[0].firstname,
-                lastname: result.rows[0].lastname,
-                othernames: result.rows[0].othernames,
-                email: result.rows[0].email,
-                username: result.rows[0].username,
-                registered: result.rows[0].registered,
-                isAdmin: result.rows[0].isadmin
-              }]
-            });
-          }
-        });
       }
+      // verifying the password 
+      _bcrypt2.default.compare(password, hash, function (err, compareRes) {
+        if (!compareRes) {
+          return res.status(409).json({
+            status: 409,
+            message: 'Auth failed'
+          });
+        }
+        // if comparision is correct
+        if (compareRes) {
+          // create the token
+          var token = _jsonwebtoken2.default.sign({
+            id: result.rows[0].id,
+            isAdmin: result.rows[0].isadmin,
+            email: result.rows[0].email,
+            username: result.rows[0].username
+          }, process.env.JWT_KEY, {
+            expiresIn: '8000h'
+          });
+          // success in login
+          return res.status(200).json({
+            status: 200,
+            message: 'Auth Successful',
+            data: [{
+              token: token,
+              id: result.rows[0].id,
+              firstname: result.rows[0].firstname,
+              lastname: result.rows[0].lastname,
+              othernames: result.rows[0].othernames,
+              email: result.rows[0].email,
+              username: result.rows[0].username,
+              registered: result.rows[0].registered,
+              isAdmin: result.rows[0].isadmin
+            }]
+          });
+        }
+      });
     });
   } else {
     res.status(500).send({

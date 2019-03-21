@@ -4,13 +4,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _db = require('../../models/db');
-
-var _db2 = _interopRequireDefault(_db);
-
 var _joi = require('joi');
 
 var _joi2 = _interopRequireDefault(_joi);
+
+var _db = require('../../models/db');
+
+var _db2 = _interopRequireDefault(_db);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35,7 +35,7 @@ var changeDestination = function changeDestination(req, res, next) {
         // checking that a new desitination was provided
         _db2.default.query(query, [req.body.to, req.params.parcelId]).then(function (result) {
           if (result.rows[0]) {
-            // checking that a parcel was found   
+            // checking that a parcel was found
             var newDestination = result.rows[0]._to;
             res.status(200).json({
               status: 200,
@@ -65,7 +65,7 @@ var changeDestination = function changeDestination(req, res, next) {
         error: 'You don\'t have permissions to change the destination of this order'
       });
     }
-  }) // could not select who placed the order, 
+  }) // could not select who placed the order,
   .catch(function (e) {
     return res.status(404).send({
       status: 404,

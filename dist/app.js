@@ -12,6 +12,10 @@ var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
+var _dotenv = require('dotenv');
+
+var _dotenv2 = _interopRequireDefault(_dotenv);
+
 var _parcel = require('./routes/parcel');
 
 var _parcel2 = _interopRequireDefault(_parcel);
@@ -31,10 +35,6 @@ var _login2 = _interopRequireDefault(_login);
 var _admin = require('./routes/admin');
 
 var _admin2 = _interopRequireDefault(_admin);
-
-var _dotenv = require('dotenv');
-
-var _dotenv2 = _interopRequireDefault(_dotenv);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

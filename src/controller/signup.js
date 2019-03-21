@@ -1,32 +1,37 @@
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import Joi from 'joi';
 import client from '../models/db';
-import Joi from'joi';
 
 const schema = Joi.object().keys({
-  username: Joi.string().alphanum().min(3).max(30).required(),
-  firstname: Joi.string().alphanum().min(3).max(30).required(),
-  lastname: Joi.string().alphanum().min(3).max(30).required(),
-  othernames: Joi.string().alphanum().min(3).max(30).required(),
+  username: Joi.string().alphanum().min(3).max(30)
+.required(),
+  firstname: Joi.string().alphanum().min(3).max(30)
+.required(),
+  lastname: Joi.string().alphanum().min(3).max(30)
+.required(),
+  othernames: Joi.string().alphanum().min(3).max(30)
+.required(),
   password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
   email: Joi.string().email({ minDomainAtoms: 2 })
-})
-
+});
 
 const signUp = (req, res, next) => {
   // get the submitted values
-  const { username, firstname, lastname, othernames, email, password } = req.body;
+  const {
+ username, firstname, lastname, othernames, email, password 
+} = req.body;
   const isAdmin = false;
   const registered = 'NOW()';
   const result = Joi.validate({
-    username, firstname, lastname, othernames, password, email
-  }, schema)
+    username, firstname, lastname, othernames, password, email,
+  }, schema);
 
   // validate the email
   if (!result.error) {
     const text = 'SELECT password FROM users WHERE email = $1';
-    const value = [email];  
+    const value = [email];
     client.query(text, value, (err, result) => {
       // if the email is already in the database
       if (result.rows[0]) {
@@ -42,7 +47,7 @@ const signUp = (req, res, next) => {
               status: 500,
               error: err,
             });
-          } else  {
+          } else {
             // no field is missing
             const query = 'INSERT INTO users(username, firstname, lastname, othernames, email, isAdmin, registered, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
             const values = [username, firstname, lastname, othernames, email, isAdmin, registered, hash];
@@ -53,7 +58,7 @@ const signUp = (req, res, next) => {
                 const token = jwt.sign({
                   id: r.rows[0].id,
                   isAdmin,
-                  email, 
+                  email,
                   username,
                 }, process.env.JWT_KEY, {
                   expiresIn: '8000h',
@@ -73,21 +78,21 @@ const signUp = (req, res, next) => {
                       registered: r.rows[0].registered,
                       isAdmin: r.rows[0].isadmin,
                     },
-                  ], 
+                  ],
                 });
-              })  
+              })
               .catch(error => res.send(error.stack));
-          } 
+          }
         }); // end of password hashing
       }
     });
   } else { // end of validateEmail
     res.status(500).send({
       status: 500,
-      error: result.error.details[0].message
+      error: result.error.details[0].message,
     });
   }
-  
+
 };
 
 export default signUp;

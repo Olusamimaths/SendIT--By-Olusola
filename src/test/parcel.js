@@ -4,7 +4,6 @@ import app from '../app';
 
 process.env.NODE_ENV = 'test';
 
-
 const should = chai.should();
 
 chai.use(chaiHttp);

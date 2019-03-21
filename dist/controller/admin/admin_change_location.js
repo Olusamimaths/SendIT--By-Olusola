@@ -8,13 +8,13 @@ var _nodemailer = require('nodemailer');
 
 var _nodemailer2 = _interopRequireDefault(_nodemailer);
 
-var _db = require('../../models/db');
-
-var _db2 = _interopRequireDefault(_db);
-
 var _joi = require('joi');
 
 var _joi2 = _interopRequireDefault(_joi);
+
+var _db = require('../../models/db');
+
+var _db2 = _interopRequireDefault(_db);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30,7 +30,7 @@ var changeCurrentLocation = function changeCurrentLocation(req, res, next) {
   var validationResult = _joi2.default.validate({ currentLocation: currentLocation }, schema);
   if (!validationResult.error) {
     _db2.default.query('SELECT placedby FROM parcels WHERE id = $1', [req.params.parcelId]).then(function (r) {
-      //get the user id
+      // get the user id
       userId = r.rows[0].placedby;
       if (req.userData.isAdmin) {
         var query = 'UPDATE parcels SET currentlocation = $1 where id = $2 RETURNING *';

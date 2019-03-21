@@ -1,25 +1,25 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import Joi from 'joi';
 import client from '../models/db';
-import Joi from'joi';
 
 const schema = Joi.object().keys({
   password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
-  email: Joi.string().email({ minDomainAtoms: 2 })
-})
+  email: Joi.string().email({ minDomainAtoms: 2 }),
+});
 
 const logIn = (req, res, next) => {
   const { email, password } = req.body;
 
-  const result = Joi.validate({ password, email  }, schema );
+  const result = Joi.validate({ password, email }, schema);
 
   // log the user in
-  if(!result.error) {
-  const query = 'SELECT * FROM users WHERE email = $1';
-  const values = [email];
-  let hash = '';
+  if (!result.error) {
+    const query = 'SELECT * FROM users WHERE email = $1';
+    const values = [email];
+    let hash = '';
     // run the query
-  client.query(query, values, (err, result) => {
+    client.query(query, values, (err, result) => {
     if (result.rows[0]) {
       hash = result.rows[0].password;
     } 
@@ -29,7 +29,7 @@ const logIn = (req, res, next) => {
         status: 409,
         error: 'Auth failed',
       });
-    } else {
+    } 
       // verifying the password 
       bcrypt.compare(password, hash, (err, compareRes) => {
         if (!compareRes) {
@@ -69,12 +69,12 @@ const logIn = (req, res, next) => {
           });
         } 
       }); 
-    }
+    
   });
   } else {
     res.status(500).send({
       status: 500,
-      error: result.error.details[0].message
+      error: result.error.details[0].message,
     });
   }
 
