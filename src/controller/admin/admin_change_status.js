@@ -1,28 +1,36 @@
 import nodemailer from 'nodemailer';
-import { userData } from '../../middleware/auth';
 import client from '../../models/db';
+import Joi from'joi';
+
+const schema = Joi.object().keys({
+  the_status: Joi.string().min(2).max(10).required()
+})
 
 let userId = '';
 
 const changeStatus = (req, res, next) => {
-  client.query('SELECT placedby FROM parcels WHERE id = $1', [req.params.parcelId])
+  const the_status = req.body.status;
+  const validationResult = Joi.validate({ the_status }, schema );
+
+  if(!validationResult.error) {
+    client.query('SELECT placedby FROM parcels WHERE id = $1', [req.params.parcelId])
     .then((r) => {
-      if (r.rowCount === 0) {
+      if (r.rowCount === 0) { 
         return res.status(403).send({ 
           status: 403,
           error: 'The Parcel Delivery you requested does not exist',
         });
-      } 
+      }  
       // getting the user id
       userId = r.rows[0].placedby;
       // checking if logged in user is admin
-      if (userData.isadmin) {
+      if (req.userData.isAdmin) {
         const query = 'UPDATE parcels SET status = $1 where id = $2 RETURNING *';
         client.query(query, [req.body.status, req.params.parcelId])
           .then((result) => {
             // get the new status
             const newStatus = result.rows[0].status;
-
+        
             if (result.rows[0]) {
               const orderId = result.rows[0].id;     
               res.status(200).json({
@@ -86,6 +94,13 @@ const changeStatus = (req, res, next) => {
       error: 'The parcel delivery you requested cannot be found',
       e,
     }));
+  } else {
+    res.status(409).send({
+      status: 409,
+      error: 'Invalid input'
+    })
+  }
+
 };
 
 export default changeStatus;

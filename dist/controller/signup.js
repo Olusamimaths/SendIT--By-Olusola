@@ -16,12 +16,15 @@ var _db = require('../models/db');
 
 var _db2 = _interopRequireDefault(_db);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _joi = require('joi');
 
-function validateEmail(email) {
-  var reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return reg.test(String(email).toLowerCase());
-}
+var _joi2 = _interopRequireDefault(_joi);
+
+var _schema = require('../validator/schema');
+
+var _schema2 = _interopRequireDefault(_schema);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var signUp = function signUp(req, res, next) {
   // get the submitted values
@@ -35,9 +38,13 @@ var signUp = function signUp(req, res, next) {
 
   var isadmin = false;
   var registered = 'NOW()';
+  console.log(_schema2.default);
+  var result = _joi2.default.validate({
+    username: username, firstname: firstname, lastname: lastname, othernames: othernames, email: email, password: password
+  }, _schema2.default);
 
   // validate the email
-  if (validateEmail(email)) {
+  if (!result.error) {
     var text = 'SELECT password FROM users WHERE email = $1';
     var value = [email];
     _db2.default.query(text, value, function (err, result) {
@@ -67,7 +74,7 @@ var signUp = function signUp(req, res, next) {
                 email: email,
                 username: username
               }, process.env.JWT_KEY, {
-                expiresIn: '1h'
+                expiresIn: '8000h'
               });
               // send the response
               res.status(200).json({

@@ -12,9 +12,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var getMyParcels = function getMyParcels(req, res, next) {
   var query = 'SELECT id, placedby, weight, weightMetric, senton, deliveredon, status, _from, _to, currentlocation FROM parcels WHERE placedby = $1';
-  if (req.user.id === req.params.userId) {
+  if (req.userData.id == req.params.userId) {
     // check that the logged in user is the one asking for his/her orders
-    _db2.default.query(query, [req.user.id]).then(function (result) {
+    _db2.default.query(query, [req.userData.id]).then(function (result) {
       var arr = [];
       result.rows.forEach(function (i) {
         arr.push({
@@ -45,7 +45,7 @@ var getMyParcels = function getMyParcels(req, res, next) {
   } else {
     res.status(403).json({
       status: 403,
-      error: 'You are not authorized from accessing this resource'
+      error: 'You are not authorized from accessing this resource.'
     });
   }
 };

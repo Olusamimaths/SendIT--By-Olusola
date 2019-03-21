@@ -1,4 +1,3 @@
-import { userData } from '../../middleware/auth';
 import client from '../../models/db';
 
 const cancelOrder = (req, res, next) => {
@@ -9,8 +8,8 @@ const cancelOrder = (req, res, next) => {
           status: 404,
           error: 'The parcel you requested cannot be found',
         });
-      } else if (r.rows[0].placedby === userData.id) {
-        const query = 'DELETE FROM parcel WHERE id = $1 RETURNING *';
+      } else if (r.rows[0].placedby === req.userData.id) {
+        const query = 'DELETE FROM parcels WHERE id = $1 RETURNING *';
         client.query(query, [req.params.parcelId])
           .then((result) => {
             if (result.rows[0]) {       

@@ -32,10 +32,6 @@ var _admin = require('./routes/admin');
 
 var _admin2 = _interopRequireDefault(_admin);
 
-var _expressValidator = require('express-validator');
-
-var _expressValidator2 = _interopRequireDefault(_expressValidator);
-
 var _dotenv = require('dotenv');
 
 var _dotenv2 = _interopRequireDefault(_dotenv);
@@ -56,6 +52,13 @@ app.use('/api/v1/', _login2.default);
 app.use('/api/v1/', _users2.default);
 app.use('/api/v1/', _admin2.default);
 
+app.use(function (req, res, next) {
+  res.locals.user = req.user;
+  console.log('req.user', res.user);
+  console.log('res.locals.user', res.locals.user);
+  next();
+});
+
 // handling errors
 app.use(function (req, res, next) {
   var error = new Error('Not found');
@@ -70,7 +73,5 @@ app.use(function (error, req, res, next) {
     }
   });
 });
-
-app.use((0, _expressValidator2.default)());
 
 exports.default = app;

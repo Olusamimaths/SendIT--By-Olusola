@@ -1,28 +1,40 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import client from '../models/db';
+import Joi from'joi';
+
+const schema = Joi.object().keys({
+  password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
+  email: Joi.string().email({ minDomainAtoms: 2 })
+})
 
 const logIn = (req, res, next) => {
   const { email, password } = req.body;
-  
+
+  const result = Joi.validate({ password, email  }, schema );
+
+  // log the user in
+  if(!result.error) {
   const query = 'SELECT * FROM users WHERE email = $1';
   const values = [email];
   let hash = '';
-    
+    // run the query
   client.query(query, values, (err, result) => {
     if (result.rows[0]) {
       hash = result.rows[0].password;
     } 
-    if (err) {
-      res.status(409).send({
+
+    if (!result.rowCount) {
+      return res.status(409).json({
         status: 409,
         error: 'Auth failed',
       });
     } else {
       // verifying the password 
-      bcrypt.compare(password, hash, (error, compareRes) => {
-        if (error) {
-          return res.status(409).send({
+      bcrypt.compare(password, hash, (err, compareRes) => {
+        if (!compareRes) {
+          return res.status(409).json({
+            status: 409,
             message: 'Auth failed',
           });
         }
@@ -31,7 +43,7 @@ const logIn = (req, res, next) => {
           // create the token
           const token = jwt.sign({
             id: result.rows[0].id,
-            isadmin: result.rows[0].isadmin,
+            isAdmin: result.rows[0].isadmin,
             email: result.rows[0].email,
             username: result.rows[0].username,
           }, process.env.JWT_KEY, {
@@ -56,13 +68,16 @@ const logIn = (req, res, next) => {
             ], 
           });
         } 
-        res.status(401).json({
-          status: 401,
-          message: 'User not found',
-        });
       }); 
     }
   });
+  } else {
+    res.status(500).send({
+      status: 500,
+      error: result.error.details[0].message
+    });
+  }
+
 };
 
 export default logIn;

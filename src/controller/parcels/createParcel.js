@@ -11,7 +11,7 @@ const createParcel = (req, res, next) => {
   if (typeof weight !== 'undefined' && typeof from !== 'undefined' 
   && typeof to !== 'undefined' && typeof currentLocation !== 'undefined') {
     const query = 'INSERT INTO parcels(placedby, weight, weightMetric, senton, deliveredon, status, _from, _to, currentlocation) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id';
-    const values = [req.user.id, weight, weightMetric, sentOn, deliveredOn, status.toLowerCase(), from.toLowerCase(), to.toLowerCase(), currentLocation.toLowerCase()];
+    const values = [req.userData.id, weight, weightMetric, sentOn, deliveredOn, status.toLowerCase(), from.toLowerCase(), to.toLowerCase(), currentLocation.toLowerCase()];
 
     // define the query
     client.query(query, values)
