@@ -2,8 +2,6 @@ import { Client, Pool } from 'pg';
 import dotenv from 'dotenv'
 dotenv.config()
 
-
-
 const connectionString = process.env.DATABASE_URL;
 
 console.log(connectionString)
@@ -41,7 +39,7 @@ const createUserTable =
 
 const runQuery = (query) => {
   pool.query(query)
-  .then(() => console.log("Success"))
+  .then(() => console.log("Success in running table creation query."))
   .catch(e => console.log(e))
 };
 
