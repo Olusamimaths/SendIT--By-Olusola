@@ -16,6 +16,7 @@ var checkAuth = exports.checkAuth = function checkAuth(req, res, next) {
     var token = req.headers.authorization.split(' ')[1];
     var decoded = _jsonwebtoken2.default.verify(token, process.env.JWT_KEY);
     req.userData = decoded;
+    console.log(req.userData);
     next();
   } catch (err) {
     return res.status(401).json({

@@ -4,8 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _auth = require('../../middleware/auth');
-
 var _db = require('../../models/db');
 
 var _db2 = _interopRequireDefault(_db);
@@ -19,8 +17,8 @@ var cancelOrder = function cancelOrder(req, res, next) {
         status: 404,
         error: 'The parcel you requested cannot be found'
       });
-    } else if (r.rows[0].placedby === _auth.userData.id) {
-      var query = 'DELETE FROM parcel WHERE id = $1 RETURNING *';
+    } else if (r.rows[0].placedby === req.userData.id) {
+      var query = 'DELETE FROM parcels WHERE id = $1 RETURNING *';
       _db2.default.query(query, [req.params.parcelId]).then(function (result) {
         if (result.rows[0]) {
           res.status(200).json({
