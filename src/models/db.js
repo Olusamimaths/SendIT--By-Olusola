@@ -43,12 +43,12 @@ const runQuery = (query) => {
   .catch(e => console.log(e))
 };
 
-runQuery(`
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS parcels;
-${createUserTable};
-${createParcelTable}
-`)
+// runQuery(`
+// DROP TABLE IF EXISTS users;
+// DROP TABLE IF EXISTS parcels;
+// ${createUserTable};
+// ${createParcelTable}
+// `)
 
 const client = new Client({connectionString})
 

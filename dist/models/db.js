@@ -35,7 +35,12 @@ var runQuery = function runQuery(query) {
   });
 };
 
-runQuery('\nDROP TABLE IF EXISTS users;\nDROP TABLE IF EXISTS parcels;\n' + createUserTable + ';\n' + createParcelTable + '\n');
+// runQuery(`
+// DROP TABLE IF EXISTS users;
+// DROP TABLE IF EXISTS parcels;
+// ${createUserTable};
+// ${createParcelTable}
+// `)
 
 var client = new _pg.Client({ connectionString: connectionString });
 

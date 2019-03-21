@@ -41,7 +41,7 @@ var signUp = function signUp(req, res, next) {
       email = _req$body.email,
       password = _req$body.password;
 
-  var isadmin = false;
+  var isAdmin = false;
   var registered = 'NOW()';
   var result = _joi2.default.validate({
     username: username, firstname: firstname, lastname: lastname, othernames: othernames, password: password, email: email
@@ -68,8 +68,8 @@ var signUp = function signUp(req, res, next) {
             });
           } else {
             // no field is missing
-            var query = 'INSERT INTO users(username, firstname, lastname, othernames, email, isadmin, registered, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
-            var values = [username, firstname, lastname, othernames, email, isadmin, registered, hash];
+            var query = 'INSERT INTO users(username, firstname, lastname, othernames, email, isAdmin, registered, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
+            var values = [username, firstname, lastname, othernames, email, isAdmin, registered, hash];
             // run the query
             _db2.default.query(query, values).then(function (r) {
               // create the token

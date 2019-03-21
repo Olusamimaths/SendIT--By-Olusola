@@ -45,7 +45,7 @@ const signUp = (req, res, next) => {
           } else  {
             // no field is missing
             const query = 'INSERT INTO users(username, firstname, lastname, othernames, email, isAdmin, registered, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
-            const values = [username, firstname, lastname, othernames, email, isadmin, registered, hash];
+            const values = [username, firstname, lastname, othernames, email, isAdmin, registered, hash];
             // run the query
             client.query(query, values)
               .then((r) => {
