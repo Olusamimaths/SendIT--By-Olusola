@@ -1,6 +1,6 @@
 # SendIT--By-Olusola
 
-[![Build Status](https://travis-ci.org/Olusamimaths/SendIT--By-Olusola.svg?branch=develop)](https://travis-ci.org/olusamimaths/<SendIT--By-Olusola>) [![Coverage Status](https://coveralls.io/repos/github/olusamimaths/SendIT--By-Olusola/badge.svg?branch=develop)](https://coveralls.io/github/olusamimaths/SendIT--By-Olusola?branch=develop)
+[![Build Status](https://travis-ci.org/Olusamimaths/SendIT--By-Olusola.svg?branch=develop)](https://travis-ci.org/olusamimaths/SendIT--By-Olusola) [![Coverage Status](https://coveralls.io/repos/github/olusamimaths/SendIT--By-Olusola/badge.svg?branch=develop)](https://coveralls.io/github/olusamimaths/SendIT--By-Olusola?branch=develop)
 
 SendIT API is an API that provides users with ability to create parcel delivery orders, modify them and track their progress.
 
