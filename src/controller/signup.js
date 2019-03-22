@@ -92,7 +92,7 @@ const signUp = (req, res, next) => {
       error: result.error.details[0].message,
     });
   }
-
+  client.end();
 };
 
 export default signUp;

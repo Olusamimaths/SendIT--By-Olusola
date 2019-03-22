@@ -11,8 +11,6 @@ pool.on('connect', () => {
   console.log('connected to the db');
 });
 
-pool.end()
-
 const createUserTable = `CREATE TABLE users (id SERIAL PRIMARY KEY NOT NULL,  
   username varchar(50) NOT NULL, 
   firstname varchar(50) NOT NULL, 
@@ -54,7 +52,6 @@ const client = new Client({ connectionString });
 
 client.connect()
   .then(() => console.log('Client is connected'))
-  .catch((e) => console.log('Client could not connect', e));
+  .catch(() => console.log('Client could not connect'));
 
-  // client.end()
 export default client;
