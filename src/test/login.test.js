@@ -5,7 +5,7 @@ import app from '../app'
 chai.should();
 chai.use(chaiHttp);
 
-describe('/POST user', () => {
+describe('/POST user/login', () => {
     // Signing in
         it('It should sign a user in', (done) => {
             chai.request(app)

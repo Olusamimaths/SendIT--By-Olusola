@@ -17,7 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _chai2.default.should();
 _chai2.default.use(_chaiHttp2.default);
 
-describe('/POST user', function () {
+describe('/POST user/login', function () {
     // Signing in
     it('It should sign a user in', function (done) {
         _chai2.default.request(_app2.default).post('/api/v1/auth/login').send({

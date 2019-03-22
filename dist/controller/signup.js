@@ -84,6 +84,7 @@ var signUp = function signUp(req, res, next) {
               // send the response
               res.status(200).json({
                 status: 200,
+                message: 'Signed up successfully',
                 data: [{
                   token: token,
                   id: r.rows[0].id,
@@ -110,7 +111,6 @@ var signUp = function signUp(req, res, next) {
       error: result.error.details[0].message
     });
   }
-  _db2.default.end();
 };
 
 exports.default = signUp;
