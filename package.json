@@ -8,7 +8,7 @@
     "npm": "6.4.1"
   },
   "scripts": {
-    "test": "npm run build && mocha --timeout 10000 dist/test/",
+    "test": "mocha --timeout 10000 dist/test/ --watch",
     "babel-node": "babel-node --presets=env",
     "start": "node dist/server.js",
     "dev": "nodemon --exec babel-node  src/server.js",

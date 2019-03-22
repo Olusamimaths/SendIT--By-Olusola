@@ -110,6 +110,7 @@ var signUp = function signUp(req, res, next) {
       error: result.error.details[0].message
     });
   }
+  _db2.default.end();
 };
 
 exports.default = signUp;
