@@ -6,15 +6,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _pg = require('pg');
 
-var _dotenv = require('dotenv');
+var _config = require('../config/config');
 
-var _dotenv2 = _interopRequireDefault(_dotenv);
+process.env.NODE_ENV = 'test';
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_dotenv2.default.config();
-
-var connectionString = process.env.DATABASE_URL;
+var connectionString = (0, _config.configuration)(process.env.TEST_DB).connectionString;
 
 console.log(connectionString);
 
@@ -22,6 +18,8 @@ var pool = new _pg.Pool({ connectionString: connectionString });
 pool.on('connect', function () {
   console.log('connected to the db');
 });
+
+// pool.end()
 
 var createUserTable = 'CREATE TABLE users (id SERIAL PRIMARY KEY NOT NULL,  \n  username varchar(50) NOT NULL, \n  firstname varchar(50) NOT NULL, \n  lastname varchar(50) NOT NULL,\n   othernames varchar(50) NOT NULL, \n   email varchar(50) NOT NULL UNIQUE, \n   password varchar(100) NOT NULL, \n   isadmin BOOLEAN, \n   registered TIMESTAMP\n   )';
 
@@ -35,19 +33,15 @@ var runQuery = function runQuery(query) {
   });
 };
 
-// runQuery(`
-// DROP TABLE IF EXISTS users;
-// DROP TABLE IF EXISTS parcels;
-// ${createUserTable};
-// ${createParcelTable}
-// `)
+runQuery('\nDROP TABLE IF EXISTS users;\nDROP TABLE IF EXISTS parcels;\n' + createUserTable + ';\n' + createParcelTable + '\n');
 
-var client = new _pg.Client({ connectionString: connectionString });
+var test_client = new _pg.Client({ connectionString: connectionString });
 
-client.connect().then(function () {
-  return console.log('Client is connected');
-}).catch(function () {
-  return console.log('Client could not connect');
+test_client.connect().then(function () {
+  return console.log('Client is connected to TEST_DB');
+}).catch(function (e) {
+  return console.log('Client could not connect to TEST_DB', e);
 });
 
-exports.default = client;
+// client.end()
+exports.default = test_client;

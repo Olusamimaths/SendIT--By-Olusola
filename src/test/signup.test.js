@@ -5,6 +5,7 @@ import app from '../app'
 chai.should();
 chai.use(chaiHttp);
 
+process.env.NODE_ENV = 'test';
 
 describe('/POST user/signup', () => {
     // Signing up
@@ -16,7 +17,7 @@ describe('/POST user/signup', () => {
                     firstname: "Samuel",
                     lastname: "Olusola",
                     othernames: "Tobi",
-                    email: "solathecoder07m@lmail.com",
+                    email: "newuser@gmail.com",
                     password: "solathecoder"
                 })
                 .end((err, res) => {
@@ -35,7 +36,7 @@ describe('/POST user/signup', () => {
                     firstname: "Samuel",
                     lastname: "Olusola",
                     othernames: "Tobi",
-                    email: "solathecoder0p7m@lmail.com",
+                    email: "anotheruser@gmail.com",
                     password: "solathecoder"
                 })
                 .end((err, res) => {

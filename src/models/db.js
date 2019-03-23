@@ -1,8 +1,7 @@
 import { Client, Pool } from 'pg';
-import dotenv from 'dotenv';
-dotenv.config();
+import { configuration } from '../config/config';
 
-const connectionString = process.env.DATABASE_URL;
+const connectionString = configuration(process.env.NODE_ENV).connectionString;
 
 console.log(connectionString);
 

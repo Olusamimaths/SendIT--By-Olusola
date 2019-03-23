@@ -17,6 +17,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _chai2.default.should();
 _chai2.default.use(_chaiHttp2.default);
 
+process.env.NODE_ENV = 'test';
+
 describe('/POST user/signup', function () {
     // Signing up
     it('It should sign a user up', function (done) {
@@ -25,7 +27,7 @@ describe('/POST user/signup', function () {
             firstname: "Samuel",
             lastname: "Olusola",
             othernames: "Tobi",
-            email: "solathecoder07m@lmail.com",
+            email: "newuser@gmail.com",
             password: "solathecoder"
         }).end(function (err, res) {
             res.should.have.status(200);
@@ -41,7 +43,7 @@ describe('/POST user/signup', function () {
             firstname: "Samuel",
             lastname: "Olusola",
             othernames: "Tobi",
-            email: "solathecoder0p7m@lmail.com",
+            email: "anotheruser@gmail.com",
             password: "solathecoder"
         }).end(function (err, res) {
             res.should.have.status(200);
