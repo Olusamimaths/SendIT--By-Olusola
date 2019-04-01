@@ -8,7 +8,6 @@ const getMyParcels = (req, res, next) => {
         const arr = [];
         result.rows.forEach((i) => {
           arr.push({
-            status: 200,
             data: [
               {
                 id: i.id,
@@ -26,6 +25,7 @@ const getMyParcels = (req, res, next) => {
           });
         });
         res.status(200).json({
+          status: 200,
           parcelOrders: arr,
         });
       })
