@@ -47,7 +47,7 @@ const logIn = (req, res, next) => {
             email: result.rows[0].email,
             username: result.rows[0].username,
           }, process.env.JWT_KEY, {
-            expiresIn: '8000h',
+            expiresIn: '24h',
           });
             // success in login
           return res.status(200).json({
