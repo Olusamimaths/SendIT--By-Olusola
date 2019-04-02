@@ -5,13 +5,15 @@ import app from '../app'
 chai.should();
 chai.use(chaiHttp);
 
-describe('/POST user', () => {
+process.env.NODE_ENV = 'test';
+
+describe('/POST user/login', () => {
     // Signing in
         it('It should sign a user in', (done) => {
             chai.request(app)
                 .post('/api/v1/auth/login')
                 .send({
-                    email: 'solathecoder@gmail.com', password: 'solathecoder'
+                    email: 'solathecoder07m@lmail.com', password: 'solathecoder'
                 })
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -25,7 +27,7 @@ describe('/POST user', () => {
             chai.request(app)
                 .post('/api/v1/auth/login')
                 .send({
-                    email: 'solathecoder@gmail.com', password: 'solathecoder'
+                    email: 'solathecoder07m@lmail.com', password: 'solathecoder'
                 })
                 .end((err, res) => {
                     res.should.have.status(200);

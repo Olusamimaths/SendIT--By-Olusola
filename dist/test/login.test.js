@@ -17,11 +17,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _chai2.default.should();
 _chai2.default.use(_chaiHttp2.default);
 
-describe('/POST user', function () {
+process.env.NODE_ENV = 'test';
+
+describe('/POST user/login', function () {
     // Signing in
     it('It should sign a user in', function (done) {
         _chai2.default.request(_app2.default).post('/api/v1/auth/login').send({
-            email: 'solathecoder@gmail.com', password: 'solathecoder'
+            email: 'solathecoder07m@lmail.com', password: 'solathecoder'
         }).end(function (err, res) {
             res.should.have.status(200);
             _chai.assert.equal(res.body.message, 'Auth Successful');
@@ -32,7 +34,7 @@ describe('/POST user', function () {
     // Token
     it('It should send a token on successful login', function (done) {
         _chai2.default.request(_app2.default).post('/api/v1/auth/login').send({
-            email: 'solathecoder@gmail.com', password: 'solathecoder'
+            email: 'solathecoder07m@lmail.com', password: 'solathecoder'
         }).end(function (err, res) {
             res.should.have.status(200);
             _chai.assert.property(res.body.data[0], 'token');

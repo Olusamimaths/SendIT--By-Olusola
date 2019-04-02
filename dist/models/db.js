@@ -6,15 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _pg = require('pg');
 
-var _dotenv = require('dotenv');
+var _config = require('../config/config');
 
-var _dotenv2 = _interopRequireDefault(_dotenv);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_dotenv2.default.config();
-
-var connectionString = process.env.DATABASE_URL;
+var connectionString = (0, _config.configuration)(process.env.NODE_ENV).connectionString;
 
 console.log(connectionString);
 

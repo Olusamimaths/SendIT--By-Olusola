@@ -66,6 +66,7 @@ const signUp = (req, res, next) => {
                 // send the response
                 res.status(200).json({
                   status: 200,
+                  message: 'Signed up successfully',
                   data: [
                     {
                       token,
@@ -92,7 +93,7 @@ const signUp = (req, res, next) => {
       error: result.error.details[0].message,
     });
   }
-  client.end();
+
 };
 
 export default signUp;
