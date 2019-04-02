@@ -61,7 +61,7 @@ const signUp = (req, res, next) => {
                   email,
                   username,
                 }, process.env.JWT_KEY, {
-                  expiresIn: '8000h',
+                  expiresIn: '24h',
                 });
                 // send the response
                 res.status(200).json({
