@@ -16,7 +16,7 @@ const changeStatus = (req, res, next) => {
     client.query('SELECT placedby FROM parcels WHERE id = $1', [req.params.parcelId])
       .then((r) => {
         if (r.rowCount === 0) {
-          return res.status(403).send({
+          return res.status(403).json({
             status: 403,
             error: 'The Parcel Delivery you requested does not exist',
           });
@@ -78,24 +78,24 @@ const changeStatus = (req, res, next) => {
               // END OF EMAIL ///////////////////////////////////////////////////////
               }
             }) // catch error if UPDATE fails
-            .catch(e => res.status(404).send({
+            .catch(e => res.status(404).json({
               status: 404,
               error: 'The parcel delivery you requested cannot be found',
             }));
         } else {
-          return res.status(403).send({
+          return res.status(403).json({
             status: 403,
             error: 'You don\'t have permissions to change the status of this order',
           });
         }
       }) // catch erro if placedBy could not be SELECTed
-      .catch(e => res.status(404).send({
+      .catch(e => res.status(404).json({
         status: 404,
         error: 'The parcel delivery you requested cannot be found',
         e,
       }));
   } else {
-    res.status(409).send({
+    res.status(409).json({
       status: 409,
       error: 'Invalid input',
     });

@@ -67,23 +67,23 @@ const changeCurrentLocation = (req, res, next) => {
               }); // End of query to select email
             // END OF EMAIL ///////////////////////////////////////////////////////
             }) // could not update parcel
-            .catch(e => res.status(404).send({
+            .catch(e => res.status(404).json({
               status: 404,
               error: 'The parcel delivery you requested cannot be found',
             }));
         } else {
-          res.status(403).send({
+          res.status(403).json({
             status: 403,
             error: 'You don\'t have permissions to change the current location of this order',
           });
         }
       }) // couldnot select who placed the order
-      .catch(e => res.status(404).send({
+      .catch(e => res.status(404).json({
         status: 404,
         error: 'The parcel delivery you requested does not exist',
       }));
   } else {
-    res.status(409).send({
+    res.status(409).json({
       status: 409,
       error: 'Invalid input, new location must be more than 3 characters and less than 100.',
     });

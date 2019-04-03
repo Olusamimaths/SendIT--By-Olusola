@@ -16,7 +16,7 @@ const createParcel = (req, res, next) => {
     // define the query
     client.query(query, values)
       .then((r) => {
-        res.status(200).send({
+        res.status(200).json({
           status: 200,
           data: [
             {
@@ -28,7 +28,7 @@ const createParcel = (req, res, next) => {
       }) // end of first query
       .catch(error => res.send(error.stack));
   } else {
-    res.send({
+    res.status(400).json({
       status: 403,
       error: 'You need to fill all fields',
     });
