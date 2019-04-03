@@ -24,7 +24,7 @@ var changeDestination = function changeDestination(req, res, next) {
 
   _db2.default.query('SELECT placedby, status FROM parcels WHERE id = $1', [req.params.parcelId]).then(function (r) {
     if (r.rowCount === 0) {
-      res.status(404).send({
+      res.status(404).json({
         status: 404,
         error: 'The parcel you requested cannot be found'
       });
@@ -46,21 +46,21 @@ var changeDestination = function changeDestination(req, res, next) {
             });
           }
         }).catch(function (e) {
-          return res.status(404).send({
+          return res.status(404).json({
             status: 404,
             error: 'Could not set the new destination'
           });
         });
       } else {
         // new destination not specified
-        res.status(403).send({
+        res.status(403).json({
           status: 403,
           error: 'You have to specify the a valid destination'
         });
       }
     } else {
       // unauthorized access
-      res.status(403).send({
+      res.status(403).json({
         status: 403,
         error: 'You don\'t have permissions to change the destination of this order'
       });

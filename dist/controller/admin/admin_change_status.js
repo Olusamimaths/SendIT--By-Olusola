@@ -31,7 +31,7 @@ var changeStatus = function changeStatus(req, res, next) {
   if (!validationResult.error) {
     _db2.default.query('SELECT placedby FROM parcels WHERE id = $1', [req.params.parcelId]).then(function (r) {
       if (r.rowCount === 0) {
-        return res.status(403).send({
+        return res.status(403).json({
           status: 403,
           error: 'The Parcel Delivery you requested does not exist'
         });
@@ -91,27 +91,27 @@ var changeStatus = function changeStatus(req, res, next) {
           }
         }) // catch error if UPDATE fails
         .catch(function (e) {
-          return res.status(404).send({
+          return res.status(404).json({
             status: 404,
             error: 'The parcel delivery you requested cannot be found'
           });
         });
       } else {
-        return res.status(403).send({
+        return res.status(403).json({
           status: 403,
           error: 'You don\'t have permissions to change the status of this order'
         });
       }
     }) // catch erro if placedBy could not be SELECTed
     .catch(function (e) {
-      return res.status(404).send({
+      return res.status(404).json({
         status: 404,
         error: 'The parcel delivery you requested cannot be found',
         e: e
       });
     });
   } else {
-    res.status(409).send({
+    res.status(409).json({
       status: 409,
       error: 'Invalid input'
     });
