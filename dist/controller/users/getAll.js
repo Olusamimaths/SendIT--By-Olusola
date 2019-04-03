@@ -18,7 +18,6 @@ var getMyParcels = function getMyParcels(req, res, next) {
       var arr = [];
       result.rows.forEach(function (i) {
         arr.push({
-          status: 200,
           data: [{
             id: i.id,
             placeBy: i.placedby,
@@ -34,6 +33,7 @@ var getMyParcels = function getMyParcels(req, res, next) {
         });
       });
       res.status(200).json({
+        status: 200,
         parcelOrders: arr
       });
     }).catch(function (e) {

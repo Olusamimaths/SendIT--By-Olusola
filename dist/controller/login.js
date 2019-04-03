@@ -69,7 +69,7 @@ var logIn = function logIn(req, res, next) {
             email: result.rows[0].email,
             username: result.rows[0].username
           }, process.env.JWT_KEY, {
-            expiresIn: '8000h'
+            expiresIn: '24h'
           });
           // success in login
           return res.status(200).json({
@@ -91,7 +91,7 @@ var logIn = function logIn(req, res, next) {
       });
     });
   } else {
-    res.status(500).send({
+    res.status(500).json({
       status: 500,
       error: result.error.details[0].message
     });

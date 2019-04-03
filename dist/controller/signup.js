@@ -79,7 +79,7 @@ var signUp = function signUp(req, res, next) {
                 email: email,
                 username: username
               }, process.env.JWT_KEY, {
-                expiresIn: '8000h'
+                expiresIn: '24h'
               });
               // send the response
               res.status(200).json({
@@ -106,7 +106,7 @@ var signUp = function signUp(req, res, next) {
     });
   } else {
     // end of validateEmail
-    res.status(500).send({
+    res.status(500).json({
       status: 500,
       error: result.error.details[0].message
     });
