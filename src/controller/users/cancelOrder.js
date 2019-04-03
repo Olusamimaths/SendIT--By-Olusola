@@ -4,7 +4,7 @@ const cancelOrder = (req, res, next) => {
   client.query('SELECT placedby FROM parcels WHERE id = $1', [req.params.parcelId])
     .then((r) => {
       if (r.rowCount === 0) {
-        res.status(404).send({
+        res.status(404).json({
           status: 404,
           error: 'The parcel you requested cannot be found',
         });

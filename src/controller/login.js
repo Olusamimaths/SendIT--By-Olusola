@@ -72,7 +72,7 @@ const logIn = (req, res, next) => {
     
   });
   } else {
-    res.status(500).send({
+    res.status(500).json({
       status: 500,
       error: result.error.details[0].message,
     });

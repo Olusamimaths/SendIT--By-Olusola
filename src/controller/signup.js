@@ -88,7 +88,7 @@ const signUp = (req, res, next) => {
       }
     });
   } else { // end of validateEmail
-    res.status(500).send({
+    res.status(500).json({
       status: 500,
       error: result.error.details[0].message,
     });
