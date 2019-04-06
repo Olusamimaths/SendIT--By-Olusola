@@ -43,7 +43,7 @@ Make sure to have all the technologies installed and then clone the repository. 
 | GET           | /api/v1/parcels                | Gets all parcel orders in the app. |
 | GET           | /api/v1/users/:userId/parcels  | Gets all parcel orders by a user. |
 | PATCH         | /api/v1/parcels/:parcelId/status| Allows the Admin to change the status of an order. |
-| PATCH         | /api/v1/parcels/4/currentlocation| Allows the Admin to change the destination of an order. |
+| PATCH         | /api/v1/parcels/:parcelId/currentlocation| Allows the Admin to change the destination of an order. |
 
 You can access the api here:  `https://sendit-olusola.herokuapp.com/` or access the web app consuming the api here: 
 
