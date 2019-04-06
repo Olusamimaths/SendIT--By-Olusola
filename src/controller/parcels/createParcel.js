@@ -3,7 +3,7 @@ import client from '../../models/db';
 
 const schema = Joi.object().keys({
   weight:Joi.number().required(),
-  from: Joi.string().alphanum().min(3).max(100)
+  from: Joi.string().min(3).max(100)
 .required(),
   to: Joi.string().min(3).max(100)
 .required(),
