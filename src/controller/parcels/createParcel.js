@@ -3,11 +3,11 @@ import client from '../../models/db';
 
 const schema = Joi.object().keys({
   weight:Joi.number().required(),
-  from: Joi.string().alphanum().min(3).max(30)
+  from: Joi.string().alphanum().min(3).max(100)
 .required(),
-  to: Joi.string().alphanum().min(3).max(30)
+  to: Joi.string().min(3).max(100)
 .required(),
-  currentLocation: Joi.string().alphanum().min(3).max(30)
+  currentLocation: Joi.string().min(3).max(100)
 .required(),
 });
 
