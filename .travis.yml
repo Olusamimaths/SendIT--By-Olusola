@@ -4,7 +4,7 @@ node_js:
   "stable"
 
 before_install:
-  - npm i -g npm@6.41
+  - npm i -g npm@6.4.1
 
 cache:
   directories:
