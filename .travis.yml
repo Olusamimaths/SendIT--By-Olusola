@@ -1,8 +1,14 @@
 language: node_js
+
 node_js:
   "stable"
+
+before_install:
+  - npm i -g npm@version-number
+
 cache:
   directories:
     "node_modules"
+    
 env: 
   - NODE_ENV=production
