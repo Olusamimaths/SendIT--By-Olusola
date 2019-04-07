@@ -41,16 +41,16 @@ const runQuery = (query) => {
     .catch(e => console.log(e));
 };
 
-const insert_query = `INSERT INTO users(username, firstname, lastname, othernames, email, isAdmin, registered, password) 
-                                                VALUES ('Sam', 'Olu', 'Tobi', 'Pelumi', 'solathecoder07m@lmail.com', 'false', '22-10-2018', 'solathecoder'), `;
+// const insert_query = `INSERT INTO users(username, firstname, lastname, othernames, email, isAdmin, registered, password) 
+//                                                 VALUES ('Sam', 'Olu', 'Tobi', 'Pelumi', 'solathecoder07m@lmail.com', 'false', '22-10-2018', 'solathecoder'), `;
 
-runQuery(`
-DROP TABLE IF EXISTS parcels;
-DROP TABLE IF EXISTS users;
-${createUserTable};
-${createParcelTable};
-${insert_query}
-`)
+// runQuery(`
+// DROP TABLE IF EXISTS parcels;
+// DROP TABLE IF EXISTS users;
+// ${createUserTable};
+// ${createParcelTable};
+// ${insert_query}
+// `)
 
 pool.end()
 

@@ -13,7 +13,7 @@ describe('/POST user/login', () => {
             chai.request(app)
                 .post('/api/v1/auth/login')
                 .send({
-                    email: 'solathecoder07m@lmail.com', password: 'solathecoder'
+                    email: 'ife@gmail.com', password: 'kudaisi'
                 })
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -27,7 +27,7 @@ describe('/POST user/login', () => {
             chai.request(app)
                 .post('/api/v1/auth/login')
                 .send({
-                    email: 'solathecoder07m@lmail.com', password: 'solathecoder'
+                    email: 'ife@gmail.com', password: 'kudaisi'
                 })
                 .end((err, res) => {
                     res.should.have.status(200);

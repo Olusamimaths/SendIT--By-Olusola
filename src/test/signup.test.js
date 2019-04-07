@@ -55,7 +55,7 @@ describe('/POST user/signup', () => {
                     firstname: "Samuel",
                     lastname: "Olusola",
                     othernames: "Tobi",
-                    email: "solathecoder07m@lmail.com",
+                    email: "ife@gmail.com",
                     password: "solathecoder"
                 })
                 .end((err, res) => {
