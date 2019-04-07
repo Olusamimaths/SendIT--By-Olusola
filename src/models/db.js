@@ -10,7 +10,6 @@ pool.on('connect', () => {
   console.log('connected to the db');
 });
 
-pool.end()
 
 const createUserTable = `CREATE TABLE users (id SERIAL PRIMARY KEY NOT NULL,  
   username varchar(50) NOT NULL, 
@@ -42,12 +41,17 @@ const runQuery = (query) => {
     .catch(e => console.log(e));
 };
 
-// runQuery(`
-// DROP TABLE IF EXISTS users;
-// DROP TABLE IF EXISTS parcels;
-// ${createUserTable};
-// ${createParcelTable}
-// `)
+const insert_query = `INSERT INTO users(username, firstname, lastname, othernames, email, isAdmin, registered, password) 
+                                                VALUES ('Sam', 'Olu', 'Tobi', 'Pelumi', 'solathecoder07m@lmail.com', 'false', '22-10-2018', 'solathecoder'), `;
+
+runQuery(`
+DROP TABLE IF EXISTS parcels;
+DROP TABLE IF EXISTS users;
+${createUserTable};
+${createParcelTable}
+`)
+
+pool.end()
 
 const client = new Client({ connectionString });
 
