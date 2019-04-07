@@ -16,9 +16,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var schema = _joi2.default.object().keys({
   weight: _joi2.default.number().required(),
-  from: _joi2.default.string().alphanum().min(3).max(30).required(),
-  to: _joi2.default.string().alphanum().min(3).max(30).required(),
-  currentLocation: _joi2.default.string().alphanum().min(3).max(30).required()
+  from: _joi2.default.string().min(3).max(100).required(),
+  to: _joi2.default.string().min(3).max(100).required(),
+  currentLocation: _joi2.default.string().min(3).max(100).required()
 });
 
 var createParcel = function createParcel(req, res, next) {
