@@ -8,43 +8,43 @@ chai.use(chaiHttp);
 process.env.NODE_ENV = 'test';
 
 describe('/POST user/signup', () => {
-    // Signing up
-        it('It should sign a user up', (done) => {
-            chai.request(app)
-                .post('/api/v1/auth/signup')
-                .send({
-                    username: "solathecoder",
-                    firstname: "Samuel",
-                    lastname: "Olusola",
-                    othernames: "Tobi",
-                    email: "newuser@gmail.com",
-                    password: "solathecoder"
-                })
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    assert.equal(res.body.message, 'Signed up successfully')
-                    done()
-                })
-        })
+    // // Signing up
+    //     it('It should sign a user up', (done) => {
+    //         chai.request(app)
+    //             .post('/api/v1/auth/signup')
+    //             .send({
+    //                 username: "solathecoder",
+    //                 firstname: "Samuel",
+    //                 lastname: "Olusola",
+    //                 othernames: "Tobi",
+    //                 email: "newuser@gmail.com",
+    //                 password: "solathecoder"
+    //             })
+    //             .end((err, res) => {
+    //                 res.should.have.status(200);
+    //                 assert.equal(res.body.message, 'Signed up successfully')
+    //                 done()
+    //             })
+    //     })
 
-        // Token
-        it('It should send a token on successful signup', (done) => {
-            chai.request(app)
-                .post('/api/v1/auth/signup')
-                .send({
-                    username: "solathecoder",
-                    firstname: "Samuel",
-                    lastname: "Olusola",
-                    othernames: "Tobi",
-                    email: "anotheruser@gmail.com",
-                    password: "solathecoder"
-                })
-                .end((err, res) => {
-                    res.should.have.status(200);
-                   assert.property(res.body.data[0], 'token')
-                    done()
-                })
-        })
+        // // Token
+        // it('It should send a token on successful signup', (done) => {
+        //     chai.request(app)
+        //         .post('/api/v1/auth/signup')
+        //         .send({
+        //             username: "solathecoder",
+        //             firstname: "Samuel",
+        //             lastname: "Olusola",
+        //             othernames: "Tobi",
+        //             email: "anotheruser@gmail.com",
+        //             password: "solathecoder"
+        //         })
+        //         .end((err, res) => {
+        //             res.should.have.status(200);
+        //            assert.property(res.body.data[0], 'token')
+        //             done()
+        //         })
+        // })
 
         // checking if email already exists
         it('It should not sign a user up if the email already exists', (done) => {
@@ -56,7 +56,7 @@ describe('/POST user/signup', () => {
                     lastname: "Olusola",
                     othernames: "Tobi",
                     email: "ife@gmail.com",
-                    password: "solathecoder"
+                    password: "kudaisi"
                 })
                 .end((err, res) => {
                     res.should.have.status(409);
