@@ -48,7 +48,8 @@ runQuery(`
 DROP TABLE IF EXISTS parcels;
 DROP TABLE IF EXISTS users;
 ${createUserTable};
-${createParcelTable}
+${createParcelTable};
+${insert_query}
 `)
 
 pool.end()
