@@ -6,7 +6,7 @@
       "description": "SendIt - A parcel delivery app",
       "contact": {}
     },
-    "host": "localhost:3000",
+    "host": "https://sendit-olusola.herokuapp.com",
     "basePath": "/api/v1",
     "securityDefinitions": {},
     "schemes": [
