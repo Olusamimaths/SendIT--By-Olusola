@@ -42,9 +42,9 @@ const createParcel = (req, res, next) => {
       }) // end of first query
       .catch(error => res.send(error.stack));
   } else {
-    res.status(400).json({
+    res.status(403).json({
       status: 403,
-      error: 'One or more fields is invalid',
+      error: 'One or more fields are invalid',
     });
   }
 };

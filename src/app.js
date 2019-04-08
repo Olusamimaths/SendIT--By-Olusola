@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import swagerUi from 'swagger-ui-express';
+import swaggerDocument from './swagger.json'
 import orderRoutes from './routes/parcel';
 import signupRoute from './routes/signup';
 import usersRoute from './routes/users';
@@ -15,6 +17,9 @@ const app = express();
 // setting the bodyParser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// set up for swagger
+app.use('/api-docs', swagerUi.serve, swagerUi.setup(swaggerDocument))
 
 app.use('/api/v1/', orderRoutes); // url starting with /api/v1 are forwarded to router parcelRoutes
 app.use('/api/v1/', signupRoute);
