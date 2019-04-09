@@ -1,0 +1,653 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0",
+      "title": "SendIT",
+      "description": "SendIt - A parcel delivery app",
+      "contact": {}
+    },
+    "host": "https://sendit-olusola.herokuapp.com",
+    "basePath": "/api/v1",
+    "securityDefinitions": {},
+    "schemes": [
+      "http"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/auth/login": {
+        "post": {
+          "description": "Logs a user in.",
+          "summary": "Login",
+          "tags": [
+            "Misc"
+          ],
+          "operationId": "AuthLoginPost",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": false,
+              "default": "Bearer {token}",
+              "type": "string"
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "Body",
+              "in": "body",
+              "required": true,
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/LoginRequest"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully logs a user in"
+            },
+            "409": {
+                "description": "Authentication failed"
+              }
+          }
+        }
+      },
+      "/auth/signup": {
+        "post": {
+          "description": "Signs a user up",
+          "summary": "Signup Route",
+          "tags": [
+            "Misc"
+          ],
+          "operationId": "AuthSignupPost",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": false,
+              "default": "Bearer {token}",
+              "type": "string"
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "Body",
+              "in": "body",
+              "required": true,
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/SignupRouteRequest"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A user successfully signed up"
+            },
+            "500": {
+                "description": "Could not validate email"
+              },
+              "409": {
+                "description": "The email exists"
+              }
+          }
+        }
+      },
+      "/parcels": {
+        "post": {
+          "description": "Creates a new parcel delivery order",
+          "summary": "Create a Parcel Order",
+          "tags": [
+            "Misc"
+          ],
+          "operationId": "ParcelsPost",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": false,
+              "default": "Bearer {token}",
+              "type": "string"
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "Body",
+              "in": "body",
+              "required": true,
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/CreateaParcelOrderRequest"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Order successfully created"
+            },
+            "403": {
+                "description": "One or more fields are invalid"
+              }
+          }
+        },
+        "get": {
+          "description": "Gets all parcel delivery orders in the app",
+          "summary": "Get all Parcels",
+          "tags": [
+            "Misc"
+          ],
+          "operationId": "ParcelsGet",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": false,
+              "default": "Bearer {token}",
+              "type": "string"
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully getss all parcel delivery orders"
+            },
+            "409": {
+                "description": "Could not fetch orders"
+              }
+          }
+        }
+      },
+      "/parcels/14/destination": {
+        "patch": {
+          "description": "Allows users to change destination of their parcel delivery order",
+          "summary": "Change Parcel Order Destination",
+          "tags": [
+            "Misc"
+          ],
+          "operationId": "Parcels14DestinationPatch",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": false,
+              "default": "Bearer {token}",
+              "type": "string"
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "Body",
+              "in": "body",
+              "required": true,
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/ChangeParcelOrderDestinationRequest"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully changed parcel destination"
+            },
+            "403": {
+                "description": "Not authorized to change parcel destination"
+              },
+              "404": {
+                "description": "Parcel not found"
+              }
+          }
+        }
+      },
+      "/parcels/14/cancel": {
+        "patch": {
+          "description": "Cancels a parcel delivery order",
+          "summary": "Cancelling a specific order",
+          "tags": [
+            "Misc"
+          ],
+          "operationId": "Parcels14CancelPatch",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": false,
+              "default": "Bearer {token}",
+              "type": "string"
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            },
+            "403": {
+                "description": "Unauthorized to cancel parcel order"
+              },
+              "404": {
+                "description": "Parcel not found"
+              }
+          }
+        }
+      },
+      "/parcels/13": {
+        "get": {
+          "description": "Gets a specific Parcel Order",
+          "summary": "Get Specific Parcel",
+          "tags": [
+            "Misc"
+          ],
+          "operationId": "Parcels13Get",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": false,
+              "default": "Bearer {token}",
+              "type": "string"
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully gets details of the order"
+            },
+            "404": {
+                "description": "Order not found"
+              },
+              "403": {
+                "description": "Invalid parcel id"
+              }
+          }
+        }
+      },
+      "/users/6/parcels": {
+        "get": {
+          "description": "Gets all parcel made by a user",
+          "summary": "Get Parcels made by User",
+          "tags": [
+            "Misc"
+          ],
+          "operationId": "Users6ParcelsGet",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": false,
+              "default": "Bearer {token}",
+              "type": "string"
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully gets all parcel made by the user"
+            },
+            "403": {
+                "description": "Not authorized"
+              }
+          }
+        }
+      },
+      "/parcels/13/status": {
+        "patch": {
+          "description": "Allows admin to change the status of an order",
+          "summary": "Admin: Change Status",
+          "tags": [
+            "Misc"
+          ],
+          "operationId": "Parcels13StatusPatch",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": false,
+              "default": "Bearer {token}",
+              "type": "string"
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "Body",
+              "in": "body",
+              "required": true,
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Admin%3AChangeStatusRequest"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Admin successfully changed the status of the order"
+            },
+            "403": {
+                "description": "Parcel order does not exist"
+              },
+              "404": {
+                "description": "Parcel could not be found"
+              },
+              "409": {
+                "description": "Invalid input"
+              }
+          }
+        }
+      },
+      "/parcels/13/currentlocation": {
+        "patch": {
+          "description": "Allows admin to change current location of an order",
+          "summary": "Admin: Change Current Location",
+          "tags": [
+            "Misc"
+          ],
+          "operationId": "Parcels13CurrentlocationPatch",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": false,
+              "default": "Bearer {token}",
+              "type": "string"
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "Body",
+              "in": "body",
+              "required": true,
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Admin%3AChangeCurrentLocationRequest"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+                "description": "Admin successfully changed the status of the order"
+              },
+              "403": {
+                  "description": "Parcel order does not exist"
+                },
+                "404": {
+                  "description": "Parcel could not be found"
+                },
+                "409": {
+                  "description": "Invalid input"
+                }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "LoginRequest": {
+        "title": "LoginRequest",
+        "example": {
+          "email": "solathecoder4@gmail.com",
+          "password": "solathecoder"
+        },
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "firstname",
+          "lastname",
+          "othernames",
+          "email",
+          "password"
+        ]
+      },
+      "SignupRouteRequest": {
+        "title": "SignupRouteRequest",
+        "example": {
+          "username": "solathecoder",
+          "firstname": "Samuel",
+          "lastname": "Olusola",
+          "othernames": "Tobi",
+          "email": "solathecoder@gmail.com",
+          "password": "solathecoder"
+        },
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "othernames": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "firstname",
+          "lastname",
+          "othernames",
+          "email",
+          "password"
+        ]
+      },
+      "CreateaParcelOrderRequest": {
+        "title": "CreateaParcelOrderRequest",
+        "example": {
+          "weight": "34",
+          "from": "Ajegunle",
+          "to": "Ifor",
+          "currentLocation": "Ajah"
+        },
+        "type": "object",
+        "properties": {
+          "weight": {
+            "type": "float"
+          },
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "currentLocation": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "weight",
+          "from",
+          "to",
+          "currentLocation"
+        ]
+      },
+      "ChangeParcelOrderDestinationRequest": {
+        "title": "ChangeParcelOrderDestinationRequest",
+        "example": {
+          "to": "Ikeja, Yaba Lagos"
+        },
+        "type": "object",
+        "properties": {
+          "to": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "weight",
+          "from",
+          "to",
+          "currentLocation"
+        ]
+      },
+      "Admin:ChangeStatusRequest": {
+        "title": "Admin:ChangeStatusRequest",
+        "example": {
+          "status": "z"
+        },
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "weight",
+          "from",
+          "to",
+          "status"
+        ]
+      },
+      "Admin:ChangeCurrentLocationRequest": {
+        "title": "Admin:ChangeCurrentLocationRequest",
+        "example": {
+          "currentLocation": "Ikeja"
+        },
+        "type": "object",
+        "properties": {
+          "currentLocation": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "currentLocation"
+        ]
+      }
+    },
+    "tags": [
+      {
+        "name": "Misc",
+        "description": ""
+      }
+    ]
+  }

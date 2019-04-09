@@ -16,6 +16,14 @@ var _dotenv = require('dotenv');
 
 var _dotenv2 = _interopRequireDefault(_dotenv);
 
+var _swaggerUiExpress = require('swagger-ui-express');
+
+var _swaggerUiExpress2 = _interopRequireDefault(_swaggerUiExpress);
+
+var _swagger = require('./swagger.json');
+
+var _swagger2 = _interopRequireDefault(_swagger);
+
 var _parcel = require('./routes/parcel');
 
 var _parcel2 = _interopRequireDefault(_parcel);
@@ -45,6 +53,9 @@ var app = (0, _express2.default)();
 // setting the bodyParser
 app.use(_bodyParser2.default.urlencoded({ extended: false }));
 app.use(_bodyParser2.default.json());
+
+// set up for swagger
+app.use('/api-docs', _swaggerUiExpress2.default.serve, _swaggerUiExpress2.default.setup(_swagger2.default));
 
 app.use('/api/v1/', _parcel2.default); // url starting with /api/v1 are forwarded to router parcelRoutes
 app.use('/api/v1/', _signup2.default);

@@ -36,21 +36,24 @@ describe('/POST user/signup', function () {
         });
     });
 
-    // Token
-    it('It should send a token on successful signup', function (done) {
-        _chai2.default.request(_app2.default).post('/api/v1/auth/signup').send({
-            username: "solathecoder",
-            firstname: "Samuel",
-            lastname: "Olusola",
-            othernames: "Tobi",
-            email: "anotheruser@gmail.com",
-            password: "solathecoder"
-        }).end(function (err, res) {
-            res.should.have.status(200);
-            _chai.assert.property(res.body.data[0], 'token');
-            done();
-        });
-    });
+    // // Token
+    // it('It should send a token on successful signup', (done) => {
+    //     chai.request(app)
+    //         .post('/api/v1/auth/signup')
+    //         .send({
+    //             username: "solathecoder",
+    //             firstname: "Samuel",
+    //             lastname: "Olusola",
+    //             othernames: "Tobi",
+    //             email: "anotheruser@gmail.com",
+    //             password: "solathecoder"
+    //         })
+    //         .end((err, res) => {
+    //             res.should.have.status(200);
+    //            assert.property(res.body.data[0], 'token')
+    //             done()
+    //         })
+    // })
 
     // checking if email already exists
     it('It should not sign a user up if the email already exists', function (done) {
@@ -59,8 +62,8 @@ describe('/POST user/signup', function () {
             firstname: "Samuel",
             lastname: "Olusola",
             othernames: "Tobi",
-            email: "solathecoder07m@lmail.com",
-            password: "solathecoder"
+            email: "ife@gmail.com",
+            password: "kudaisi"
         }).end(function (err, res) {
             res.should.have.status(409);
             _chai.assert.equal(res.body.message, 'Mail exists');

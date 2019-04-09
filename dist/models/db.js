@@ -29,9 +29,16 @@ var runQuery = function runQuery(query) {
   });
 };
 
-var insert_query = 'INSERT INTO users(username, firstname, lastname, othernames, email, isAdmin, registered, password) \n                                                VALUES (\'Sam\', \'Olu\', \'Tobi\', \'Pelumi\', \'solathecoder07m@lmail.com\', \'false\', \'22-10-2018\', \'solathecoder\'), ';
+// const insert_query = `INSERT INTO users(username, firstname, lastname, othernames, email, isAdmin, registered, password) 
+//                                                 VALUES ('Sam', 'Olu', 'Tobi', 'Pelumi', 'solathecoder07m@lmail.com', 'false', '22-10-2018', 'solathecoder'), `;
 
-runQuery('\nDROP TABLE IF EXISTS parcels;\nDROP TABLE IF EXISTS users;\n' + createUserTable + ';\n' + createParcelTable + '\n');
+// runQuery(`
+// DROP TABLE IF EXISTS parcels;
+// DROP TABLE IF EXISTS users;
+// ${createUserTable};
+// ${createParcelTable};
+// ${insert_query}
+// `)
 
 pool.end();
 
