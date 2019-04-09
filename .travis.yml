@@ -13,7 +13,7 @@ cache:
 env: 
   - NODE_ENV=test
   - JWT_KEY=TheBestPassWordOnEarth9023
-  - TEST_DB=postgres://postgres:solathecoder@127.0.0.1:5432/travis_ci_test
+  - TEST_DB=postgres://postgres:password@127.0.0.1:5432/travis_ci_test
 
 services:
   - postgresql
