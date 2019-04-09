@@ -23,7 +23,7 @@ describe('/POST user/login', function () {
     // Signing in
     it('It should sign a user in', function (done) {
         _chai2.default.request(_app2.default).post('/api/v1/auth/login').send({
-            email: 'solathecoder07m@lmail.com', password: 'solathecoder'
+            email: 'newuser@gmail.com', password: 'solathecoder'
         }).end(function (err, res) {
             res.should.have.status(200);
             _chai.assert.equal(res.body.message, 'Auth Successful');
@@ -34,7 +34,7 @@ describe('/POST user/login', function () {
     // Token
     it('It should send a token on successful login', function (done) {
         _chai2.default.request(_app2.default).post('/api/v1/auth/login').send({
-            email: 'solathecoder07m@lmail.com', password: 'solathecoder'
+            email: 'ife@gmail.com', password: 'kudaisi'
         }).end(function (err, res) {
             res.should.have.status(200);
             _chai.assert.property(res.body.data[0], 'token');

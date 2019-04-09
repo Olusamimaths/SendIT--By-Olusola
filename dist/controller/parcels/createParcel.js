@@ -56,9 +56,9 @@ var createParcel = function createParcel(req, res, next) {
       return res.send(error.stack);
     });
   } else {
-    res.status(400).json({
+    res.status(403).json({
       status: 403,
-      error: 'One or more fields is invalid'
+      error: 'One or more fields are invalid'
     });
   }
 };
