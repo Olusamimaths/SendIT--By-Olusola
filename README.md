@@ -47,6 +47,9 @@ Make sure to have all the technologies installed and then clone the repository. 
 
 You can access the api here:  `https://sendit-olusola.herokuapp.com/` or access the web app consuming the api here: 
 
+## Documentation
+The documentation is available here:`https://sendit-olusola.herokuapp.com/api-docs/`
+
 
 
 
