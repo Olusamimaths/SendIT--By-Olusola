@@ -23,7 +23,7 @@ describe('/POST user/login', function () {
     // Signing in
     it('It should sign a user in', function (done) {
         _chai2.default.request(_app2.default).post('/api/v1/auth/login').send({
-            email: 'newuser@gmail.com', password: 'solathecoder'
+            email: 'newuser@lmail.com', password: 'solathecoder'
         }).end(function (err, res) {
             res.should.have.status(200);
             _chai.assert.equal(res.body.message, 'Auth Successful');
