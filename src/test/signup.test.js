@@ -9,23 +9,23 @@ process.env.NODE_ENV = 'test';
 
 describe('/POST user/signup', () => {
     // Signing up
-        it('It should sign a user up', (done) => {
-            chai.request(app)
-                .post('/api/v1/auth/signup')
-                .send({
-                    username: "solathecoder",
-                    firstname: "Samuel",
-                    lastname: "Olusola",
-                    othernames: "Tobi",
-                    email: "newuser@gmail.com",
-                    password: "solathecoder"
-                })
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    assert.equal(res.body.message, 'Signed up successfully')
-                    done()
-                })
-        })
+        // it('It should sign a user up', (done) => {
+        //     chai.request(app)
+        //         .post('/api/v1/auth/signup')
+        //         .send({
+        //             username: "solathecoder",
+        //             firstname: "Samuel",
+        //             lastname: "Olusola",
+        //             othernames: "Tobi",
+        //             email: "newuser@gmail.com",
+        //             password: "solathecoder"
+        //         })
+        //         .end((err, res) => {
+        //             res.should.have.status(200);
+        //             assert.equal(res.body.message, 'Signed up successfully')
+        //             done()
+        //         })
+        // })
 
         // // Token
         // it('It should send a token on successful signup', (done) => {
@@ -55,7 +55,7 @@ describe('/POST user/signup', () => {
                     firstname: "Samuel",
                     lastname: "Olusola",
                     othernames: "Tobi",
-                    email: "ife@gmail.com",
+                    email: "newuser@gmail.com",
                     password: "kudaisi"
                 })
                 .end((err, res) => {
