@@ -10,8 +10,6 @@ var _config = require('../config/config');
 
 var connectionString = (0, _config.configuration)(process.env.NODE_ENV).connectionString;
 
-console.log(connectionString);
-
 var pool = new _pg.Pool({ connectionString: connectionString });
 pool.on('connect', function () {
   console.log('connected to the db');
