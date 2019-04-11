@@ -3,8 +3,6 @@ import { configuration } from '../config/config';
 
 const connectionString = configuration(process.env.NODE_ENV).connectionString;
 
-console.log(connectionString);
-
 const pool = new Pool({ connectionString });
 pool.on('connect', () => {
   console.log('connected to the db');
