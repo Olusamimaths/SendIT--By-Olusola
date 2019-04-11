@@ -13,7 +13,7 @@ describe('/POST user/login', () => {
             chai.request(app)
                 .post('/api/v1/auth/login')
                 .send({
-                    email: 'newuser@gmail.com', password: 'solathecoder'
+                    email: 'newuser@lmail.com', password: 'solathecoder'
                 })
                 .end((err, res) => {
                     res.should.have.status(200);
