@@ -34,7 +34,7 @@ describe('/POST user/login', function () {
     // Token
     it('It should send a token on successful login', function (done) {
         _chai2.default.request(_app2.default).post('/api/v1/auth/login').send({
-            email: 'ife@gmail.com', password: 'kudaisi'
+            email: 'newuser@gmail.com', password: 'kudaisi'
         }).end(function (err, res) {
             res.should.have.status(200);
             _chai.assert.property(res.body.data[0], 'token');
@@ -45,7 +45,7 @@ describe('/POST user/login', function () {
     // checking if email exists
     it('It should not log a user in if email does not exist', function (done) {
         _chai2.default.request(_app2.default).post('/api/v1/auth/login').send({
-            email: '059@gmail.com', password: 'anythin'
+            email: '05ld9@gmail.com', password: 'anythin'
         }).end(function (err, res) {
             res.should.have.status(409);
             _chai.assert.equal(res.body.error, 'Auth failed');

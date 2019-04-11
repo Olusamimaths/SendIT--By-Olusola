@@ -27,7 +27,7 @@ describe('/POST user/login', () => {
             chai.request(app)
                 .post('/api/v1/auth/login')
                 .send({
-                    email: 'ife@gmail.com', password: 'kudaisi'
+                    email: 'newuser@gmail.com', password: 'kudaisi'
                 })
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -41,7 +41,7 @@ describe('/POST user/login', () => {
             chai.request(app)
                 .post('/api/v1/auth/login')
                 .send({
-                    email: '059@gmail.com', password: 'anythin'
+                    email: '05ld9@gmail.com', password: 'anythin'
                 })
                 .end((err, res) => {
                     res.should.have.status(409);
