@@ -3,7 +3,7 @@ import Joi from 'joi';
 import client from '../../models/db';
 
 const schema = Joi.object().keys({
-  currentLocation: Joi.string().min(3).required(),
+  currentLocation: Joi.string().min(10).required(),
 });
 
 let userId = '';
@@ -85,7 +85,7 @@ const changeCurrentLocation = (req, res, next) => {
   } else {
     res.status(409).json({
       status: 409,
-      error: 'Invalid input, new location must be more than 3 characters and less than 100.',
+      error: 'Invalid input, new location must be more than 10 characters and less than 100.',
     });
   }
 };

@@ -11,7 +11,7 @@ const schema = Joi.object().keys({
 const logIn = (req, res, next) => {
   const { email, password } = req.body;
 
-  const result = Joi.validate({ password, email }, schema);
+  const result = Joi.validate({ password, email }, schema, {abortEarly: false});
 
   // log the user in
   if (!result.error) {
@@ -74,7 +74,7 @@ const logIn = (req, res, next) => {
   } else {
     res.status(500).json({
       status: 500,
-      error: result.error.details[0].message,
+      error: result.error.details.map(detail => detail.message),
     });
   }
 
