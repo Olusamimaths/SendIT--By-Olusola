@@ -52,7 +52,7 @@ const changeDestination = (req, res, next) => {
         });
       }
     }) // could not select who placed the order,
-    .catch(e => res.status(404).send({
+    .catch(e => res.status(404).json({
       status: 404,
       error: 'The parcel delivery you requested cannot be found',
     }));
