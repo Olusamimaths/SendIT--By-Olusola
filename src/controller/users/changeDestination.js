@@ -2,12 +2,12 @@ import Joi from'joi';
 import client from '../../models/db';
 
 const schema = Joi.object().keys({
-  destination: Joi.string().min(2).required(),
+  destination: Joi.string().min(10).required(),
 });
 
 const changeDestination = (req, res, next) => {
   const destination = req.body.to;
-  const validationResult = Joi.validate({ destination }, schema);
+  const validationResult = Joi.validate({ destination }, schema, {abortEarly: false});
 
   client.query('SELECT placedby, status FROM parcels WHERE id = $1', [req.params.parcelId])
     .then((r) => {
@@ -42,7 +42,7 @@ const changeDestination = (req, res, next) => {
         } else { // new destination not specified
           res.status(403).json({
             status: 403,
-            error: 'You have to specify the a valid destination',
+            error: 'You have to specify a valid destination (minimum of 10 characters)',
           });
         }
       } else { // unauthorized access

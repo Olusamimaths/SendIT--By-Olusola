@@ -3,11 +3,11 @@ import client from '../../models/db';
 
 const schema = Joi.object().keys({
   weight:Joi.number().required(),
-  from: Joi.string().min(3).max(100)
+  from: Joi.string().min(10).max(100)
 .required(),
-  to: Joi.string().min(3).max(100)
+  to: Joi.string().min(10).max(100)
 .required(),
-  currentLocation: Joi.string().min(3).max(100)
+  currentLocation: Joi.string().min(10).max(100)
 .required(),
 });
 
@@ -20,7 +20,7 @@ const createParcel = (req, res, next) => {
 
   const result = Joi.validate({
     weight, from, to, currentLocation
-  }, schema)
+  }, schema, {abortEarly: false})
 
   // validate the values
   if (!result.error) {
@@ -44,7 +44,7 @@ const createParcel = (req, res, next) => {
   } else {
     res.status(403).json({
       status: 403,
-      error: 'One or more fields are invalid',
+      error: result.error.details.map(detail => detail.message),
     });
   }
 };

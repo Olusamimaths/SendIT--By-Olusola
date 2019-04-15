@@ -26,7 +26,8 @@ const signUp = (req, res, next) => {
   const registered = 'NOW()';
   const result = Joi.validate({
     username, firstname, lastname, othernames, password, email,
-  }, schema);
+  }, schema, {abortEarly: false});
+
 
   // validate the email
   if (!result.error) {
@@ -90,7 +91,7 @@ const signUp = (req, res, next) => {
   } else { // end of validateEmail
     res.status(500).json({
       status: 500,
-      error: result.error.details[0].message,
+      error: result.error.details.map(detail => detail.message),
     });
   }
 
