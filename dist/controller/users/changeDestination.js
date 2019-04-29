@@ -15,12 +15,12 @@ var _db2 = _interopRequireDefault(_db);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var schema = _joi2.default.object().keys({
-  destination: _joi2.default.string().min(2).required()
+  destination: _joi2.default.string().min(10).required()
 });
 
 var changeDestination = function changeDestination(req, res, next) {
   var destination = req.body.to;
-  var validationResult = _joi2.default.validate({ destination: destination }, schema);
+  var validationResult = _joi2.default.validate({ destination: destination }, schema, { abortEarly: false });
 
   _db2.default.query('SELECT placedby, status FROM parcels WHERE id = $1', [req.params.parcelId]).then(function (r) {
     if (r.rowCount === 0) {
@@ -55,7 +55,7 @@ var changeDestination = function changeDestination(req, res, next) {
         // new destination not specified
         res.status(403).json({
           status: 403,
-          error: 'You have to specify the a valid destination'
+          error: 'You have to specify a valid destination (minimum of 10 characters)'
         });
       }
     } else {
@@ -67,7 +67,7 @@ var changeDestination = function changeDestination(req, res, next) {
     }
   }) // could not select who placed the order,
   .catch(function (e) {
-    return res.status(404).send({
+    return res.status(404).json({
       status: 404,
       error: 'The parcel delivery you requested cannot be found'
     });

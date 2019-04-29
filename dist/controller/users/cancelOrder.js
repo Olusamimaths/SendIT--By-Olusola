@@ -33,7 +33,7 @@ var cancelOrder = function cancelOrder(req, res, next) {
         return res.send(e.stack);
       });
     } else {
-      res.send({
+      res.status(403).json({
         status: 403,
         error: 'You don\'t have permissions to cancel this parcel delivery order'
       });

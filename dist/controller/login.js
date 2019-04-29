@@ -33,7 +33,7 @@ var logIn = function logIn(req, res, next) {
       password = _req$body.password;
 
 
-  var result = _joi2.default.validate({ password: password, email: email }, schema);
+  var result = _joi2.default.validate({ password: password, email: email }, schema, { abortEarly: false });
 
   // log the user in
   if (!result.error) {
@@ -93,7 +93,9 @@ var logIn = function logIn(req, res, next) {
   } else {
     res.status(500).json({
       status: 500,
-      error: result.error.details[0].message
+      error: result.error.details.map(function (detail) {
+        return detail.message;
+      })
     });
   }
 };

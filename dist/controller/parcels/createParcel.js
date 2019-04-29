@@ -16,9 +16,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var schema = _joi2.default.object().keys({
   weight: _joi2.default.number().required(),
-  from: _joi2.default.string().min(3).max(100).required(),
-  to: _joi2.default.string().min(3).max(100).required(),
-  currentLocation: _joi2.default.string().min(3).max(100).required()
+  from: _joi2.default.string().min(10).max(100).required(),
+  to: _joi2.default.string().min(10).max(100).required(),
+  currentLocation: _joi2.default.string().min(10).max(100).required()
 });
 
 var createParcel = function createParcel(req, res, next) {
@@ -35,7 +35,7 @@ var createParcel = function createParcel(req, res, next) {
 
   var result = _joi2.default.validate({
     weight: weight, from: from, to: to, currentLocation: currentLocation
-  }, schema);
+  }, schema, { abortEarly: false });
 
   // validate the values
   if (!result.error) {
@@ -58,7 +58,9 @@ var createParcel = function createParcel(req, res, next) {
   } else {
     res.status(403).json({
       status: 403,
-      error: 'One or more fields are invalid'
+      error: result.error.details.map(function (detail) {
+        return detail.message;
+      })
     });
   }
 };

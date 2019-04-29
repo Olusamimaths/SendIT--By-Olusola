@@ -45,7 +45,7 @@ var signUp = function signUp(req, res, next) {
   var registered = 'NOW()';
   var result = _joi2.default.validate({
     username: username, firstname: firstname, lastname: lastname, othernames: othernames, password: password, email: email
-  }, schema);
+  }, schema, { abortEarly: false });
 
   // validate the email
   if (!result.error) {
@@ -108,7 +108,9 @@ var signUp = function signUp(req, res, next) {
     // end of validateEmail
     res.status(500).json({
       status: 500,
-      error: result.error.details[0].message
+      error: result.error.details.map(function (detail) {
+        return detail.message;
+      })
     });
   }
 };
