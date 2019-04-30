@@ -9,18 +9,18 @@ process.env.NODE_ENV = 'test';
 
 describe('/POST user/login', () => {
     // Signing in
-        // it('It should sign a user in', (done) => {
-        //     chai.request(app)
-        //         .post('/api/v1/auth/login')
-        //         .send({
-        //             email: 'newuser@lmail.com', password: 'solathecoder'
-        //         })
-        //         .end((err, res) => {
-        //             res.should.have.status(200);
-        //             assert.equal(res.body.message, 'Auth Successful')
-        //             done()
-        //         })
-        // })
+        it('It should sign a user in', (done) => {
+            chai.request(app)
+                .post('/api/v1/auth/login')
+                .send({
+                    email: 'newuser@lmail.com', password: 'solathecoder'
+                })
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    assert.equal(res.body.message, 'Auth Successful')
+                    done()
+                })
+        })
 
         // Token
         it('It should send a token on successful login', (done) => {
